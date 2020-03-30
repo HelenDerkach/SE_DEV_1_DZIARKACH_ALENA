@@ -9,7 +9,10 @@ import {FormGroup, FormControl, Validators} from "@angular/forms";
 export class LoginComponent implements OnInit{
 
 	_loginForm:FormGroup;
-
+	
+	@Output()
+  	login: EventEmitter<{nickname: string, password: string}> = new EventEmitter();
+ 
 	// constructor() { }
 
 	ngOnInit(): void {
@@ -20,7 +23,6 @@ export class LoginComponent implements OnInit{
 	}
 
 	onSubmit() {
-	  // TODO: Use EventEmitter with form value
-	  console.warn(this._loginForm.value);
+	  this.login.next(this._loginForm.value);
 	}
 }

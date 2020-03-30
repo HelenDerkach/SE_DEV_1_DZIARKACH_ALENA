@@ -12,7 +12,7 @@ export class LoginPageComponent {
               //private lss: LocalStorageService
               ) {}
 
-  _onLogin(event) {
+  onSubmit(event) {
     console.log(event);
     //this.lss.setItem("credentials", JSON.stringify(event));
     this._router.navigate(["/home"]);
