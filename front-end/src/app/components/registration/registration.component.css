@@ -1,9 +1,8 @@
 .form-wrapper{
 	width: 40rem;
-	height: 20rem;
 	
 	position: relative;
-	top: 20%;
+	top: 10%;
 	margin: auto;
 
 	display: flex;
@@ -40,7 +39,7 @@ a:hover {
 	text-decoration: underline;
 }
 
-.login-form{
+.registration-form{
 	display: flex;
 	flex-direction: column;
 }

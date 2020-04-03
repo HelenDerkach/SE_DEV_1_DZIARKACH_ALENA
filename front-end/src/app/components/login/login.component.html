@@ -1,22 +1,22 @@
 <div class="form-wrapper">
-	<h1>Добро пожаловать!</h1>
+	<h1>Welcome!</h1>
 	<h2>
-		Чтобы продолжить, войдите или <a href="">зарегистрируйтесь</a>
+		To continue log into existing account or <a routerLink="/registration">create one</a>
 	</h2>
 	<form [formGroup]="_loginForm" class="login-form">
 		<mat-form-field>
-    		<mat-label>Логин</mat-label>
-    		<input matInput formControlName="login" placeholder="coolLogin" value="">
-			<mat-error *ngIf="_loginForm.controls['login'].hasError('required')">
-				Введите логин
+    		<mat-label>Email</mat-label>
+    		<input matInput formControlName="email" type="email" placeholder="your@mail.com" value="">
+			<mat-error *ngIf="_loginForm.controls['email'].hasError('required')">
+				Please tell us your email
 			</mat-error>
   		</mat-form-field>
   		<mat-form-field>
-    		<mat-label>Пароль</mat-label>
+    		<mat-label>Password</mat-label>
     		<input matInput type="password" formControlName="password" placeholder="YourPassword" value="">
-    		<mat-hint>Пароль должен быть не меньше 5 символов</mat-hint>
+    		<mat-hint>Password has to be minimum 5 characters</mat-hint>
   		</mat-form-field>
-		<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!_loginForm.valid">Войти</button>
+		<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!_loginForm.valid">Log in</button>
 	</form>
 </div>
 
