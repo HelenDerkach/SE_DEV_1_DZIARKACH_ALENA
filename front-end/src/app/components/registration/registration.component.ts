@@ -18,7 +18,7 @@ export class RegistrationComponent implements OnInit {
 	returnUrl: string;
 
 	@Output()
-  	login: EventEmitter<{
+  	registration: EventEmitter<{
   		firstName: string, 
   		lastName:string, 
   		phone: string,
@@ -30,9 +30,9 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit(): void {
   	this._registrationForm = new FormGroup({
-  			"firstName": new FormControl('', [Validators.required, Validators.minLength(5)]),
-  			"lastName": new FormControl('', [Validators.required, Validators.minLength(5)]),
-  			"phone": new FormControl('', [Validators.required, Validators.minLength(7)]),
+  		"firstName": new FormControl('', [Validators.required, Validators.minLength(2)]),
+  		"lastName": new FormControl('', [Validators.required, Validators.minLength(2)]),
+  		"phone": new FormControl('', [Validators.required, Validators.minLength(7)]),
 			"email": new FormControl('', [Validators.required, Validators.email, Validators.minLength(5)]),
 			"password": new FormControl('', [Validators.required, Validators.minLength(5)]),
 		});
@@ -45,7 +45,7 @@ export class RegistrationComponent implements OnInit {
 		}
 		 
 		this.loading = true;
-	  	this.login.next(this._registrationForm.value);
+	  	this.registration.next(this._registrationForm.value);
 	}
 
 }

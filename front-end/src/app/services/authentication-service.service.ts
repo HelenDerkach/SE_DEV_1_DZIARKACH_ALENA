@@ -46,10 +46,11 @@ login(_newUser: User): Observable<User>{
 	// 	localStorage.setItem('currentUser', JSON.stringify(user.result));
 	// 	this.currentUserSubject.next(user);
 	// }
- 	if(_newUser.firstName === ''){
+ 	if(_newUser.firstName === undefined){
  		_newUser.firstName = 'Andy';
  		_newUser.lastName = 'Smith';
  		_newUser.phone = '(029) 123-45-67';
+ 		_newUser.id = 1;
  	}
  	localStorage.setItem('currentUser', JSON.stringify(_newUser));
 	this.currentUserSubject.next(_newUser);

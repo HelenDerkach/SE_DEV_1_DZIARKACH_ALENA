@@ -10,15 +10,22 @@ import { MatInputModule } from "@angular/material/input";
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 
+import { AppComponent } from './app.component';
+
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
 
-import { AppComponent } from './app.component';
+
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './components/home/home.component';
+import { RegistrationPageComponent } from './pages/registration/registration-page.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { FormComponent } from './components/form/form.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NewFormComponent } from './pages/new-form/new-form.component';
+import { FormEditorComponent } from './components/form-editor/form-editor.component';
 
 
 @NgModule({
@@ -28,7 +35,11 @@ import { RegistrationComponent } from './components/registration/registration.co
     HomepageComponent,
     LoginComponent,
     HomeComponent,
-    RegistrationComponent
+    RegistrationPageComponent,
+    RegistrationComponent,
+    FormComponent,
+    NewFormComponent,
+    FormEditorComponent
   ],
   imports: [
     BrowserModule,
@@ -40,7 +51,8 @@ import { RegistrationComponent } from './components/registration/registration.co
     BrowserAnimationsModule,
     MatButtonModule,
     MatChipsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FontAwesomeModule
   ],
   providers: [
     {provide: ErrorStateMatcher}

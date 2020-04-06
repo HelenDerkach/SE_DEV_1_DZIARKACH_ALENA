@@ -1,1 +1,12 @@
-<app-home [_user] = 'currentUser' (login)="onSubmit($event)"></app-home>
+<div class="home-wrapper">
+	<app-home [_user] = 'currentUser'></app-home>
+	<div class="home-page__form-wrapper">
+		<div *ngFor="let form of forms">
+		    <app-form [_form]="form"></app-form>
+		</div>
+		<button mat-fab color="accent" class="add-form-button" (click)="createForm()">
+			<fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+		</button>
+	</div>
+	
+</div>

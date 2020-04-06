@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
 	_user: User;
 
   constructor() { 
-  	//this._user = parent.currentUser;
+  	
   }
 
   ngOnInit(): void {
