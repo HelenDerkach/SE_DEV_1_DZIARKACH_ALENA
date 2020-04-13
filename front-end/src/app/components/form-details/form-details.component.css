@@ -1,0 +1,39 @@
+@import '~normalize.css';
+.form-wrapper{
+	width: 60rem;
+	
+	position: relative;
+	top: 10%;
+	margin: auto;
+
+	display: flex;
+	flex-direction: column;
+	padding: 2rem 4rem;
+
+	background: #FBFAF9;
+	box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	font-family: Montserrat;
+	font-weight: 200;
+	font-size: 18px;
+}
+
+.form-name{
+	font-size: 3rem;
+	font-weight: 400;
+	margin: 1rem 0;
+}
+
+
+
+.form-description{
+	font-size: 2rem;
+	font-weight: 300;
+}
+
+.statistics-wrapper{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	width: 100%;
+}

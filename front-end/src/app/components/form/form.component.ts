@@ -1,4 +1,4 @@
-import { Component, OnInit, Host, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Host, Input, Output } from '@angular/core';
 import { HomepageComponent } from '../../pages/homepage/homepage.component';
 import { Form } from '../../models/form.model';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
@@ -14,9 +14,16 @@ export class FormComponent implements OnInit {
 	@Input() 
 	_form: Form;
 
+	@Output()
+  	formDetails: EventEmitter<number> = new EventEmitter();
+	
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  showFormDetails(): void{	
+  	this.formDetails.next(this._form.id);
+  }
 }

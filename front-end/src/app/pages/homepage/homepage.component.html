@@ -2,7 +2,7 @@
 	<app-home [_user] = 'currentUser'></app-home>
 	<div class="home-page__form-wrapper">
 		<div *ngFor="let form of forms">
-		    <app-form [_form]="form"></app-form>
+		    <app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
 		</div>
 		<button mat-fab color="accent" class="add-form-button" (click)="createForm()">
 			<fa-icon [icon]="plusIcon" size="lg"></fa-icon>

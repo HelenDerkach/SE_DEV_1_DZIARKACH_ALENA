@@ -1,0 +1,34 @@
+<div class="form-wrapper">
+	<h2 class="form-name">{{currentForm.name}}</h2>
+	<h2 class="form-description">{{currentForm.description}}</h2>
+	<div class="statistics-wrapper">
+		<p><b>{{responses}}</b> people completed your form</p>
+		<p>Average time: <b>{{averageTime}}</b> minutes</p>
+	</div>
+	<div class="questions" *ngFor="let question of questions">
+		<div class="question">
+			<h3>{{question.text}}</h3>
+			<div class="answers-wrapper" [ngSwitch]="question.type">
+				<div class="question-type" *ngSwitchCase="'text'">
+					<mat-form-field>
+						<input class="question-text-input" matInput type="'text'" value="Your answer">
+					</mat-form-field>
+				</div>
+				<div class="question-type" *ngSwitchCase="'radio'">
+					<mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+					  	<mat-radio-button class="example-radio-button" *ngFor="let season of seasons" value="Option1">
+						</mat-radio-button>
+						<mat-radio-button class="example-radio-button" *ngFor="let season of seasons" value="Option2">
+						</mat-radio-button>
+						<mat-radio-button class="example-radio-button" *ngFor="let season of seasons" value="Option3">
+						</mat-radio-button>
+					</mat-radio-group>
+				</div>
+				<div class="question-type" *ngSwitchDefault>
+					There was no answer option
+				</div>
+			</div>
+			
+		</div>
+	</div>
+</div>

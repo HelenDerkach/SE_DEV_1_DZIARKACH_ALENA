@@ -35,4 +35,8 @@ export class HomepageComponent implements OnInit {
     this._router.navigate(['/createForm']);
   }
 
+  showFormDetails(event){
+    this._router.navigate(['form', event]);
+  }
+
 }

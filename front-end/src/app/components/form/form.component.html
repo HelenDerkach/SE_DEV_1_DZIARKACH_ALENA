@@ -1,4 +1,6 @@
 <div class="user-form-wrapper">
 	<h2>{{_form.name}}</h2>
-	<button mat-fab color="accent" class="user-form-info"><fa-icon [icon]="arrowIcon" size="lg"></fa-icon></button>
+	<button id="{{_form.id}}" mat-fab color="accent" class="user-form-info" (click)="showFormDetails()">
+		<fa-icon [icon]="arrowIcon" size="lg"></fa-icon>
+	</button>
 </div>

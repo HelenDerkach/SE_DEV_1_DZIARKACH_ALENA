@@ -3,4 +3,5 @@ export class Form {
 	fields: string;
 	name: string;
 	userId: number;
+	description: string;
 }

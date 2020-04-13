@@ -20,7 +20,7 @@
   		</mat-form-field>
   		<mat-form-field>
     		<mat-label>Phone</mat-label>
-    		<input matInput formControlName="phone" type="phone" placeholder="(029) 123-45-67" value="">
+    		<input matInput formControlName="phone" type="text" placeholder="+375 29 123-45-67" value="" mask="+000 00 000-00-00">
 			<mat-error *ngIf="_registrationForm.controls['phone'].hasError('required')">
 				Please tell us your phone
 			</mat-error>

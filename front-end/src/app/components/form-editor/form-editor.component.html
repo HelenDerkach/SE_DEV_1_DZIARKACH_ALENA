@@ -1,4 +1,4 @@
-<div class="form-wrapper">
+<div class="form-wrapper" [formGroup]="_formData">
 	<mat-form-field>
 		<mat-label>Form name</mat-label>
 		<input class="form-name form-input" matInput formControlName="formName" type="text" placeholder="Your form name" value="NewForm">
@@ -7,4 +7,7 @@
 		<mat-label>Form description</mat-label>
 		<input class="form-description form-input" matInput formControlName="description" type="text" placeholder="Form description" value="Tell respondents about your form">
 	</mat-form-field>
+	<button mat-fab color="accent" class="add-form-button" (click)="addQuestion()">
+		<fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+	</button>
 </div>
