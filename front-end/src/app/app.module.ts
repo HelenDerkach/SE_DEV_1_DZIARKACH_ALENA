@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select'; 
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,6 +31,7 @@ import { RegistrationComponent } from './components/registration/registration.co
 import { FormComponent } from './components/form/form.component';
 import { FormEditorComponent } from './components/form-editor/form-editor.component';
 import { FormDetailsComponent } from './components/form-details/form-details.component';
+import { QuestionComponent } from './components/question/question.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { FormDetailsComponent } from './components/form-details/form-details.com
     FormComponent,
     NewFormComponent,
     FormEditorComponent,
-    FormDetailsComponent
+    FormDetailsComponent,
+    QuestionComponent
   ],
   imports: [
     BrowserModule,
@@ -55,11 +58,17 @@ import { FormDetailsComponent } from './components/form-details/form-details.com
     MatInputModule,
     MatRadioModule,
     MatCheckboxModule,
+    MatSelectModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatChipsModule,
     AppRoutingModule,
     FontAwesomeModule
+  ],
+  exports:[
+    MatRadioModule,
+    MatCheckboxModule,
+    MatSelectModule,
   ],
   providers: [
     {provide: ErrorStateMatcher}

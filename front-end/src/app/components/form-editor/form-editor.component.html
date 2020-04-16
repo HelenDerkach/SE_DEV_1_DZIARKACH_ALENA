@@ -7,7 +7,12 @@
 		<mat-label>Form description</mat-label>
 		<input class="form-description form-input" matInput formControlName="description" type="text" placeholder="Form description" value="Tell respondents about your form">
 	</mat-form-field>
-	<button mat-fab color="accent" class="add-form-button" (click)="addQuestion()">
+	<div class="questions-wrapper" *ngFor="let question of questions">
+		<app-question [_question]="question"></app-question>
+	</div>
+	<button mat-fab color="accent" class="add-form-button" (click)="newQuestion()">
 		<fa-icon [icon]="plusIcon" size="lg"></fa-icon>
 	</button>
+
+	<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!_formData.valid">Submit</button>
 </div>

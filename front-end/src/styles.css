@@ -5,10 +5,12 @@
 html, body { height: 100%; }
 body{
 	margin: 0;
+	padding: 5%;
 	font-family: 'Montserrat', sans-serif;
 
 	background-image: url(assets/images/background.svg);
 	background-repeat: no-repeat;
+	background-attachment: fixed;
 	background-size: 100%;
 	color: #421940;
 }

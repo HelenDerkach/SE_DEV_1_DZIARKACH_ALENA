@@ -3,4 +3,5 @@ export class Question {
 	text: string;
 	type: string;
 	formId: number;
+	options: Array<String>;
 }

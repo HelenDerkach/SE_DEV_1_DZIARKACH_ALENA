@@ -22,7 +22,7 @@ export class FormDetailsComponent implements OnInit {
   	this.currentForm = Forms.find((form)=>form.id == activateRoute.snapshot.params['id']);
   	this.responses = 15;
   	this.averageTime = 8;
-  	this.questions = Questions.filter((question)=>question.id == this.currentForm.id);
+  	this.questions = Questions.filter((question)=>question.formId == this.currentForm.id);
    }
 
   ngOnInit(): void {

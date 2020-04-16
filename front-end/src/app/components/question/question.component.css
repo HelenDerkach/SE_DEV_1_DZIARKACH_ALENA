@@ -1,0 +1,28 @@
+.question, .question-options, .question-options-group{
+	display: flex;
+	flex-direction: column;
+}
+
+.question-header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.question-text{
+	flex: 1 1 auto; 
+	padding-right: 1rem;
+}
+
+.question-options{
+	margin: 0.5rem 2rem;
+}
+
+.question-options button{
+	margin: 2rem 0;
+}
+
+.question-options-group > .question-option{
+	margin: 0.2rem 0;
+	height: 1rem;
+}
