@@ -2,9 +2,9 @@
 	<div class="question-header">
 		<mat-form-field class="question-text">
 			<mat-label>Question text</mat-label>
-			<input class="form-name form-input" matInput formControlName="text" type="text" placeholder="What do you want to ask?" value="">
+			<input class="form-name form-input" matInput formControlName="text" type="text" placeholder="What do you want to ask?" value="" [readonly]="!_isEditable">
 		</mat-form-field>
-		<mat-form-field>
+		<mat-form-field *ngIf="_isEditable">
 	  		<mat-label>Select type of question</mat-label>
 			  <mat-select formControlName="type">
 			  	<option label="--select something --"></option>
@@ -24,18 +24,18 @@
 		<div *ngSwitchCase="'radio'">	
 			<div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
 				<mat-radio-button class="question-option">
-					<input matInput type="text" placeholder="Option" [formControlName]="i">
+					<input matInput type="text" placeholder="Option" [formControlName]="i" [readonly]="!_isEditable">
 				</mat-radio-button>
 			</div>
-			<button mat-stroked-button color="primary" (click)="addOption()">Add option</button>
+			<button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
 		</div>
 		<div *ngSwitchCase="'checkbox'">	
 			<div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
 				<mat-checkbox class="question-option">
-					<input matInput type="text" placeholder="Option"  [formControlName]="i">
+					<input matInput class="checkbox-input" type="text" placeholder="Option"  [formControlName]="i" [readonly]="!_isEditable">
 				</mat-checkbox>
 			</div>
-			<button mat-stroked-button color="primary" (click)="addOption()">Add option</button>
+			<button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
 		</div>
 	</div>
 </div>

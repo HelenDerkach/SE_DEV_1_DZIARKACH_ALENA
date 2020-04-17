@@ -1,5 +1,5 @@
-.home-wrapper{
-	width: 40rem;
+.form-details-wrapper{
+	width: 60rem;
 	
 	margin: auto;
 	margin-bottom: 5%;
@@ -13,11 +13,13 @@
 	border-radius: 10px;
 }
 
-.home-page__form-wrapper{
-	display: flex;
-	flex-direction: column;
+.form-name{
+	font-size: 3rem;
+	font-weight: 400;
+	margin: 1rem 0;
 }
 
-.add-form-button{
-	margin: 1rem auto;
+.form-description{
+	font-size: 2rem;
+	font-weight: 300;
 }

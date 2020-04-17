@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Form } from '../../models/form.model';
 import { Question } from '../../models/question.model';
-import { ActivatedRoute} from '@angular/router';
-import { Forms } from '../../mock-forms';
 import { Questions } from '../../mock-questions';
 
 
@@ -12,20 +10,16 @@ import { Questions } from '../../mock-questions';
   styleUrls: ['./form-details.component.css']
 })
 export class FormDetailsComponent implements OnInit {
+  @Input()
+	_currentForm: Form;
 
-	currentForm: Form;
-	responses: number;
-	averageTime: number;
 	questions: Question[];
 
-  constructor(private activateRoute: ActivatedRoute) {
-  	this.currentForm = Forms.find((form)=>form.id == activateRoute.snapshot.params['id']);
-  	this.responses = 15;
-  	this.averageTime = 8;
-  	this.questions = Questions.filter((question)=>question.formId == this.currentForm.id);
+  constructor() {
    }
 
   ngOnInit(): void {
+    this.questions = Questions.filter((question)=>question.formId == this._currentForm.id);
   }
 
 }

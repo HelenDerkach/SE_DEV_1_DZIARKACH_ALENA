@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Question } from '../../models/question.model';
-import { QuestionChoices } from '../../models/question-choices.model';
 import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgForm, Validators} from '@angular/forms';
 
 @Component({
@@ -12,14 +11,15 @@ import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgF
 export class QuestionComponent implements OnInit  {
 	@Input()
 	_question: Question;
+  @Input()
+  _isEditable: boolean;
 
 	_questionForm: FormGroup;
-	_choices: String[];
+  _choices: FormArray;
 
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
-  	this._choices = new Array();
     this._questionForm = this.fb.group({
       text: ['', Validators.required],
       type: ['', Validators.required],
@@ -27,6 +27,24 @@ export class QuestionComponent implements OnInit  {
         this.fb.control('')
       ], {validators: Validators.required, updateOn: 'blur'})
     });
+
+    if(!this._isEditable){
+      this._questionForm = this.fb.group({
+        text: [this._question.text, Validators.required],
+        type: [this._question.type, Validators.required],
+        choices: this.fb.array([
+          this.fb.control('')
+        ], {validators: Validators.required, updateOn: 'blur'})
+      });
+      this._choices = this._questionForm.get('choices') as FormArray;
+      this._choices.clear();
+
+      for (var i = 0; i < this._question.options.length; ++i) {
+        this._choices.insert(i, new FormControl());
+      }
+
+      this._choices.setValue(this._question.options);
+    }
 
     this.onChanges();
   }

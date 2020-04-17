@@ -1,0 +1,43 @@
+<div class="form-data-wrapper">
+	<div class="statistics-wrapper">
+		<p><b>{{responses}}</b> people completed your form</p>
+		<p>Average time: <b>{{averageTime}}</b> minutes</p>
+	</div>
+	<div class="charts-wrapper">
+		<div class="question-wrapper" *ngFor="let question of questions">
+			<div class="question-info">
+				<h3>{{question.text}}</h3>
+				<p>15 answers</p>
+			</div>
+			<div class="answers-wrapper" [ngSwitch]="question.type">
+				<div class="chart" *ngSwitchCase="'radio'">
+					<canvas baseChart
+						[data]="pieChartData"
+						[labels]="question.options"
+						[chartType]="'pie'"
+						[options]="pieChartOptions"
+						[colors]="pieChartColors"
+						[legend]="'true'">
+					</canvas>
+		    	</div>
+			</div>
+			<div class="answers-wrapper" [ngSwitch]="question.type">
+				<div class="chart" *ngSwitchCase="'checkbox'">
+					<canvas baseChart
+						[data]="pieChartData"
+						[labels]="question.options"
+						[chartType]="'bar'"
+						[options]="pieChartOptions"
+						[colors]="pieChartColors"
+						[legend]="'true'">
+					</canvas>
+		    	</div>
+			</div>
+			<div class="answers-wrapper" [ngSwitch]="question.type">
+				<div class="chart" *ngSwitchCase="'text'">
+					{{question.options.value}}
+		    	</div>
+			</div>			
+		</div>
+	</div>
+</div>

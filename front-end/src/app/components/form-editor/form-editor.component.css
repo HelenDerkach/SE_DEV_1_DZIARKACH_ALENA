@@ -1,15 +1,5 @@
 .form-wrapper{
-	width: 60rem;
-	
-	margin: auto;
 
-	display: flex;
-	flex-direction: column;
-	padding: 2rem 4rem;
-
-	background: #FBFAF9;
-	box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.25);
-	border-radius: 10px;
 }
 
 .form-input{
