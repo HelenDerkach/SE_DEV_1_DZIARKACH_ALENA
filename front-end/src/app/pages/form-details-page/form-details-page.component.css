@@ -3,9 +3,6 @@
 	
 	margin: auto;
 	margin-bottom: 5%;
-
-	display: flex;
-	flex-direction: column;
 	padding: 2rem 4rem;
 
 	background: #FBFAF9;
@@ -22,4 +19,15 @@
 .form-description{
 	font-size: 2rem;
 	font-weight: 300;
+}
+
+.back{
+	width: 8rem;
+	display: flex;
+	align-items: center;
+}
+
+.back .mat-button-wrapper{
+	display: flex !important;
+	justify-content: space-around !important;
 }

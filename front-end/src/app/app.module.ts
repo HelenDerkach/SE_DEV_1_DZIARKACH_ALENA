@@ -36,6 +36,8 @@ import { QuestionComponent } from './components/question/question.component';
 import { FormDetailsPageComponent } from './pages/form-details-page/form-details-page.component';
 import { TabsComponent } from './components/tabs/tabs.component';
 import { FormDataComponent } from './components/form-data/form-data.component';
+import { AdminPageComponent } from './pages/admin-page/admin-page.component';
+import { MenuComponent } from './components/menu/menu.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { FormDataComponent } from './components/form-data/form-data.component';
     QuestionComponent,
     FormDetailsPageComponent,
     TabsComponent,
-    FormDataComponent
+    FormDataComponent,
+    AdminPageComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,7 @@
+<div class="admin-wrapper">
+	<app-home [_user] = 'currentUser'></app-home>
+	<div class="forms-wrapper" *ngFor="let form of forms">
+		<app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
+	</div>
+</div>
+<app-menu></app-menu>

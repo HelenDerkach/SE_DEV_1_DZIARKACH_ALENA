@@ -51,15 +51,20 @@ login(_newUser: User): Observable<User>{
  		_newUser.lastName = 'Smith';
  		_newUser.phone = '(029) 123-45-67';
  		_newUser.id = 1;
+ 		_newUser.role = 1;
+ 	}
+ 	if(_newUser.email === "admin@admin"){
+ 		_newUser.firstName = 'Admin';
+ 		_newUser.role = 2;
  	}
  	localStorage.setItem('currentUser', JSON.stringify(_newUser));
 	this.currentUserSubject.next(_newUser);
-	return of(_newUser);
+		return of(_newUser);
 	};
  
 logout() {
 	// remove user data from local storage for log out
-	localStorage.removeItem('currentUser');
-	this.currentUserSubject.next(null);
+		localStorage.removeItem('currentUser');
+		this.currentUserSubject.next(null);
 	}
 }

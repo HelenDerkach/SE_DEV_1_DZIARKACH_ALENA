@@ -18,7 +18,13 @@ export class LoginPageComponent {
   onSubmit(event) {
     this.authenticationService.login(event).subscribe(
       data => {
-        this._router.navigate(['/home']);
+        if(data.role === 2){
+          this._router.navigate(['/admin']);
+        }
+        else{
+          this._router.navigate(['/home']);
+        }
+        
         },
       error => {
         this.toastr.error(error.error.message, 'Error');

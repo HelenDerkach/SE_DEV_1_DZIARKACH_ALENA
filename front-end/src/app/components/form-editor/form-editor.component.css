@@ -1,5 +1,27 @@
-.form-wrapper{
+.form-name{
+	font-size: 3rem;
+	font-weight: 400;
+	margin: 1rem 0;
+}
 
+.form-description{
+	font-size: 2rem;
+	font-weight: 300;
+}
+
+.form-wrapper{
+	width: 60rem;
+	
+	margin: auto;
+	margin-bottom: 5%;
+	padding: 2rem 4rem;
+
+	display: flex;
+	flex-direction: column;
+
+	background: #FBFAF9;
+	box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
 }
 
 .form-input{
@@ -13,4 +35,8 @@
 
 .form-description{
 	font-size: 2rem;
+}
+
+.add-question-button{
+	margin: 2rem auto;
 }

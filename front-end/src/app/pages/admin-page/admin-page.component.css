@@ -1,4 +1,4 @@
-.home-wrapper{
+.admin-wrapper{
 	width: 40rem;
 	
 	margin: auto;
@@ -13,11 +13,7 @@
 	border-radius: 10px;
 }
 
-.home-page .forms-wrapper{
+.admin-page .forms-wrapper{
 	display: flex;
 	flex-direction: column;
-}
-
-.add-form-button{
-	margin: 1rem auto;
 }
