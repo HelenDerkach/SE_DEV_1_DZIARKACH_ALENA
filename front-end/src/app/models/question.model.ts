@@ -1,7 +1,8 @@
 export class Question {
-	id: number;
+  id: number;
 	text: string;
 	type: string;
 	formId: number;
-	options: Array<String>;
+	required: boolean;
+	options: Array<string>;
 }

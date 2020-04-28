@@ -7,14 +7,14 @@
 	flex-direction: column;
 }
 
-.question-header{
+.question-header, .question-body{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 }
 
 .question-text{
-	flex: 1 1 auto; 
+	flex: 1 1 auto;
 	padding-right: 1rem;
 }
 

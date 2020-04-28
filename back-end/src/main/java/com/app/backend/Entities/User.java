@@ -1,9 +1,7 @@
 package com.app.backend.Entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 import javax.persistence.*;
+import java.util.List;
 
 @Entity 
 @Table(name = "users")
@@ -19,7 +17,13 @@ public class User {
   private String phone;
 
   private String password;
-  private Integer role;
+
+  @ManyToOne
+  @JoinColumn(name="role")
+  private Role role;
+
+  @OneToMany(mappedBy = "user")
+  private List<Poll> polls;
 
   public Integer getId() {
     return id;
@@ -60,4 +64,20 @@ public class User {
   public void setPhone(String phone) {
     this.phone = phone;
   }
+
+  public String getPassword() {
+        return password;
+    }
+
+  public void setPassword(String password) {
+        this.password = password;
+    }
+
+  public Role getRole() {
+        return role;
+    }
+
+  public void setRole(Role role) {
+        this.role = role;
+    }
 }

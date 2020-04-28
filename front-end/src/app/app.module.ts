@@ -7,14 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { MatFormFieldModule } from "@angular/material/form-field";
-import { MatInputModule } from "@angular/material/input";
-import { MatButtonModule } from '@angular/material/button';
-import { MatChipsModule } from '@angular/material/chips';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import { MatTabsModule } from '@angular/material/tabs';  
+import { MaterialModuleModule } from './modules/material-module.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -65,24 +58,11 @@ import { MenuComponent } from './components/menu/menu.component';
     NgxMaskModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTabsModule,
     BrowserAnimationsModule,
-    MatButtonModule,
-    MatChipsModule,
+    MaterialModuleModule,
     ChartsModule,
     AppRoutingModule,
     FontAwesomeModule
-  ],
-  exports:[
-    MatRadioModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatTabsModule,
   ],
   providers: [
     {provide: ErrorStateMatcher}

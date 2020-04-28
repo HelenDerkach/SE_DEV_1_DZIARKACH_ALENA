@@ -13,29 +13,42 @@
 			    <mat-option value="checkbox">Multiple options</mat-option>
 			  </mat-select>
 		</mat-form-field>
-	</div>	
-	<div class="question-options" [ngSwitch]="_questionForm.controls['type'].value">
-		<div *ngSwitchCase="'text'">
-			<mat-form-field>
-				<mat-label>Answer</mat-label>
-				<input matInput type="text" placeholder="" value="" readonly>
-			</mat-form-field>
-		</div>
-		<div *ngSwitchCase="'radio'">	
-			<div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
-				<mat-radio-button class="question-option">
-					<input matInput type="text" placeholder="Option" [formControlName]="i" [readonly]="!_isEditable">
-				</mat-radio-button>
-			</div>
-			<button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
-		</div>
-		<div *ngSwitchCase="'checkbox'">	
-			<div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
-				<mat-checkbox class="question-option">
-					<input matInput class="checkbox-input" type="text" placeholder="Option"  [formControlName]="i" [readonly]="!_isEditable">
-				</mat-checkbox>
-			</div>
-			<button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
-		</div>
 	</div>
+  <div class="question-body">
+    <div class="question-options" [ngSwitch]="_questionForm.controls['type'].value">
+      <div *ngSwitchCase="'text'">
+        <mat-form-field>
+          <mat-label>Answer</mat-label>
+          <input matInput type="text" placeholder="" value="" readonly>
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'radio'">
+        <div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
+          <mat-radio-button class="question-option">
+            <div>
+              <mat-form-field>
+                <mat-label>Option</mat-label>
+                <input matInput type="text" [formControlName]="_choice" [readonly]="!_isEditable" required>
+              </mat-form-field>
+            </div>
+          </mat-radio-button>
+        </div>
+        <button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
+      </div>
+      <div *ngSwitchCase="'checkbox'">
+        <div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
+          <mat-checkbox class="question-option">
+            <input matInput class="checkbox-input" type="text" placeholder="Option"  [formControlName]="i" [readonly]="!_isEditable">
+          </mat-checkbox>
+        </div>
+        <button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
+      </div>
+    </div>
+    <div class="question-required">
+      <mat-slide-toggle class="question-slider" formControlName="required">
+        Required
+      </mat-slide-toggle>
+    </div>
+  </div>
+
 </div>

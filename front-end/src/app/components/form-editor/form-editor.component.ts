@@ -12,7 +12,7 @@ import { QuestionComponent } from '../question/question.component';
   templateUrl: './form-editor.component.html',
   styleUrls: ['./form-editor.component.css']
 })
-export class FormEditorComponent implements OnInit {  
+export class FormEditorComponent implements OnInit {
   plusIcon = faPlus;
 
 	newForm: Form;
@@ -21,7 +21,7 @@ export class FormEditorComponent implements OnInit {
 	_questionForms: FormGroup[];
 
   constructor(private toastr: ToastrService) {
-    this.questions = new Array(); 
+    this.questions = new Array();
   	this.newForm = new Form();
   	this._formData = new FormGroup({
   		"formName": new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -32,7 +32,7 @@ export class FormEditorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  newQuestion(): void{
+  newQuestion(): void {
     this.questions.push(new Question());
   }
 
