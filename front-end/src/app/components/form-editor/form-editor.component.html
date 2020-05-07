@@ -1,4 +1,7 @@
 <div class="form-wrapper" [formGroup]="_formData">
+  <button mat-stroked-button class="back" (click)="back()">
+    BACK
+  </button>
 	<mat-form-field>
 		<mat-label>Form name</mat-label>
 		<input class="form-name form-input" matInput formControlName="formName" type="text" placeholder="Your form name" value="NewForm">
@@ -7,12 +10,44 @@
 		<mat-label>Form description</mat-label>
 		<input class="form-description form-input" matInput formControlName="description" type="text" placeholder="Form description" value="Tell respondents about your form">
 	</mat-form-field>
-	<div class="questions-wrapper" *ngFor="let question of questions">
-		<app-question [_question]="question" [_isEditable]="true"></app-question>
-	</div>
-	<button mat-fab color="accent" class="add-form-button" (click)="newQuestion()">
-		<fa-icon [icon]="plusIcon" size="lg"></fa-icon>
-	</button>
+  <div class="data-wrapper" cdkDropListGroup>
+    <div class="themes-wrapper">
+        <div class="theme" cdkDropList (cdkDropListDropped)="drop($event)"
+             *ngFor="let theme of themes">
+          <h1>Name</h1>
+          <div class="theme-questions" *ngFor="let question of theme.questions"></div>
+        </div>
+      <button mat-fab color="primary" title="Add theme" class="action-button" (click)="newTheme()">
+        <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+      </button>
+    </div>
+    <div class="questions-wrapper" cdkDropList (cdkDropListDropped)="drop($event)">
+      <div class="question-wrapper" *ngFor="let question of questions"  cdkDrag>
+        <div class="drag-handle" cdkDragHandle></div>
+        <app-question
+          [_question]="question"
+          [_isEditable]="true"
+          (valid)="onQuestionValid($event)"
+          (delete)="onQuestionDelete($event)"></app-question>
+      </div>
+    </div>
+  </div>
 
-	<button mat-raised-button class="add-question-button" color="primary" (click)="onSubmit()" [disabled]="!_formData.valid">Submit</button>
+  <div class="action-buttons-wrapper">
+    <button mat-fab color="accent" title="Add question" class="action-button" (click)="newQuestion()">
+      <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+    </button>
+
+  </div>
+  <div class="buttons-wrapper">
+    <button mat-raised-button class="new-theme-button" color="accent" (click)="onSubmit()" [disabled]="!_formData.valid">
+      Create new theme
+    </button>
+    <button mat-raised-button class="save-button" color="accent" (click)="onSubmit()" [disabled]="!_formData.valid">
+      Save to drafts
+    </button>
+    <button mat-raised-button class="publish-button" color="primary" (click)="onSubmit()" [disabled]="!_formData.valid || !questionsValid">
+      Publish
+    </button>
+  </div>
 </div>

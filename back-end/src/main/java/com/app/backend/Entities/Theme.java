@@ -1,11 +1,12 @@
 package com.app.backend.Entities;
 
 import com.fasterxml.jackson.annotation.*;
+import lombok.Data;
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "themes")
+@Data
 public class Theme {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -15,7 +16,8 @@ public class Theme {
 
     private boolean is_private;
 
-    @OneToMany(mappedBy = "theme", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<Poll> polls;
+    @ManyToOne
+    @JoinColumn(name="poll_id")
+    @JsonBackReference (value="theme-polls")
+    private Poll poll;
 }

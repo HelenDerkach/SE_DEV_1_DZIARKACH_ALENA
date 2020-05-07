@@ -4,4 +4,5 @@ export class Form {
 	name: string;
 	userId: number;
 	description: string;
+	isPublished: boolean;
 }

@@ -1,5 +1,6 @@
 <div class="question" [formGroup]="_questionForm">
 	<div class="question-header">
+    <h3 class="question-position">{{_question.position}}.</h3>
 		<mat-form-field class="question-text">
 			<mat-label>Question text</mat-label>
 			<input class="form-name form-input" matInput formControlName="text" type="text" placeholder="What do you want to ask?" value="" [readonly]="!_isEditable">
@@ -13,6 +14,9 @@
 			    <mat-option value="checkbox">Multiple options</mat-option>
 			  </mat-select>
 		</mat-form-field>
+    <button mat-icon-button class="delete-question-button" (click)="deleteQuestion()">
+      <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
+    </button>
 	</div>
   <div class="question-body">
     <div class="question-options" [ngSwitch]="_questionForm.controls['type'].value">
@@ -23,25 +27,34 @@
         </mat-form-field>
       </div>
       <div *ngSwitchCase="'radio'">
-        <div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
-          <mat-radio-button class="question-option">
-            <div>
+        <div class="question-options-group" formArrayName="choices">
+          <mat-radio-button class="question-option" *ngFor="let option of optionsArray.controls; let i=index" [formGroupName]="i">
+            <div class="option-wrapper">
               <mat-form-field>
-                <mat-label>Option</mat-label>
-                <input matInput type="text" [formControlName]="_choice" [readonly]="!_isEditable" required>
+                <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
               </mat-form-field>
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption()">
+                <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
+              </button>
             </div>
           </mat-radio-button>
         </div>
-        <button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
+        <button mat-stroked-button color="primary" *ngIf="_isEditable" class="add-option-button" (click)="addOption()">Add option</button>
       </div>
       <div *ngSwitchCase="'checkbox'">
-        <div class="question-options-group" formArrayName="choices" *ngFor="let _choice of choices.controls; let i=index">
-          <mat-checkbox class="question-option">
-            <input matInput class="checkbox-input" type="text" placeholder="Option"  [formControlName]="i" [readonly]="!_isEditable">
+        <div class="question-options-group" formArrayName="choices">
+          <mat-checkbox class="question-option" *ngFor="let option of optionsArray.controls; let i=index" [formGroupName]="i">
+            <div class="option-wrapper">
+              <mat-form-field>
+                <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
+              </mat-form-field>
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption()">
+                <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
+              </button>
+            </div>
           </mat-checkbox>
         </div>
-        <button mat-stroked-button color="primary" *ngIf="_isEditable" (click)="addOption()">Add option</button>
+        <button mat-stroked-button color="primary" *ngIf="_isEditable" class="add-option-button" (click)="addOption()">Add option</button>
       </div>
     </div>
     <div class="question-required">

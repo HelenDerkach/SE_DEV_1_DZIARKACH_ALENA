@@ -1,6 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Question } from '../../models/question.model';
-import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { QuestionChoice } from '../../models/question-choice.model';
+import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgForm, Validators, AbstractControl} from '@angular/forms';
+import { QuestionService } from '../../services/question-service.service';
+import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-question',
@@ -9,65 +12,93 @@ import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgF
 })
 
 export class QuestionComponent implements OnInit  {
-	@Input()
+  closeIcon = faTimes;
+  @Input()
 	_question: Question;
   @Input()
   _isEditable: boolean;
+  @Output()
+  valid = new EventEmitter<boolean>();
+  @Output()
+  delete = new EventEmitter<number>();
+
+  questionChoices: QuestionChoice[];
 
 	_questionForm: FormGroup;
-  _choices: FormArray;
+  optionsArray: FormArray = new FormArray([]);
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private questionService: QuestionService) { }
 
   ngOnInit(): void {
-    this._questionForm = this.fb.group({
-      text: ['', Validators.required],
-      type: ['', Validators.required],
-      required: [false, Validators.required],
-      choices: this.fb.array([
-        this.fb.control('')
-      ], {validators: Validators.required, updateOn: 'blur'})
-    });
-
-    if (!this._isEditable) {
+    this.valid.emit(false);
+    if (this._question !== null) {
+      this.questionChoices = this.questionService.getOptions(this._question.id);
       this._questionForm = this.fb.group({
         text: [this._question.text, Validators.required],
         type: [this._question.type, Validators.required],
         required: [this._question.required, Validators.required],
-        choices: this.fb.array([
-          this.fb.control('')
-        ], {validators: Validators.required, updateOn: 'blur'})
+        choices: this.addOptionArray()
       });
-      this._choices = this._questionForm.get('choices') as FormArray;
-      this._choices.clear();
 
-      for (let i = 0; i < this._question.options.length; ++i) {
-        this._choices.insert(i, new FormControl());
+      if (!this.questionChoices) {
+        this.optionsArray.push(this.getOption(new QuestionChoice()));
       }
-
-      this._choices.setValue(this._question.options);
+    } else {
+      this._questionForm = this.fb.group({
+        text: [this._question.text, Validators.required],
+        type: [this._question.type, Validators.required],
+        required: [this._question.required, Validators.required],
+        choices: this.addOptionArray()
+      });
     }
-
+    this._questionForm.get('required').setValue(false);
     this.onChanges();
+    this.onFormValidation();
   }
 
   onChanges(): void {
     this._questionForm.statusChanges.subscribe(val => {
-      if (this._questionForm.valid) {
-        this._question.text = this._questionForm.get('text').value;
-        this._question.type = this._questionForm.get('type').value;
-        this._question.required = this._questionForm.get('required').value;
-        this._question.options = this.choices.value;
-      }
+      this.onFormValidation();
     });
   }
 
-  get choices() {
-    return this._questionForm.get('choices') as FormArray;
+  deleteQuestion(): void {
+    this.delete.emit(this._question.position);
   }
 
   addOption() {
-    this.choices.push(this.fb.control(''));
+    this.optionsArray.push(this.getOption(new QuestionChoice()));
   }
 
+  deleteOption(): void {
+    // this.optionsArray.split()
+  }
+
+  addOptionArray(): FormArray {
+    if (this.questionChoices.length !== 0) {
+      this.questionChoices.forEach((option) => {
+        this.optionsArray.push(this.getOption(option));
+      });
+    } else {
+      this.optionsArray.push(this.getOption(new QuestionChoice()));
+    }
+    return this.optionsArray;
+  }
+
+  getOption(option: QuestionChoice): FormGroup {
+    return this.fb.group({
+      val: [option.text, [Validators.required]]
+    });
+  }
+
+  onFormValidation(): void {
+    if ((this._questionForm.valid) || (!this._questionForm.controls.choices.valid && this._questionForm.value.type === 'text')) {
+      this.valid.emit(true);
+      this._question.text = this._questionForm.get('text').value;
+      this._question.type = this._questionForm.get('type').value;
+      this._question.required = this._questionForm.get('required').value;
+    } else {
+      this.valid.emit(false);
+    }
+  }
 }

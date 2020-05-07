@@ -1,0 +1,25 @@
+.themes-wrapper{
+	position: fixed;
+	right: 1rem;
+	top: 40%;
+
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem 1rem;
+
+	background: #FBFAF9;
+	box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+}
+
+.theme{
+	background: #FFFFFF;
+	box-shadow: 2px 4px 2px rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+	padding: 1rem 1.5rem;
+	margin: 0.5rem 0;
+}
+
+.private{
+	background: #c8c8fa;
+}

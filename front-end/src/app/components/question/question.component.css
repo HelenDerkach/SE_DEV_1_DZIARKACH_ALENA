@@ -1,6 +1,6 @@
-.question{
-	margin: 1rem 0;
-}
+/*.question{*/
+/*	margin: 1rem 0;*/
+/*}*/
 
 .question, .question-options, .question-options-group{
 	display: flex;
@@ -13,17 +13,27 @@
 	justify-content: space-between;
 }
 
+.question-header{
+  margin: 0.5rem 0 0 0.5rem;
+}
+
+.question-position{
+  position: absolute;
+  top: -5px;
+  left: 20px;
+}
+
 .question-text{
 	flex: 1 1 auto;
 	padding-right: 1rem;
 }
 
 .question-options{
-	margin: 0.5rem 2rem;
+	margin: 0rem 2rem;
 }
 
-.question-options button{
-	margin: 2rem 0;
+.add-option-button{
+	margin: 2rem 0 1rem;
 }
 
 .question-options-group > .question-option{
@@ -33,4 +43,19 @@
 
 .checkbox-input{
 	margin-left: 8px !important;
+}
+
+.delete-question-button{
+  color: #cccccc;
+  position: absolute;
+  right:0px;
+  top:10px;
+}
+
+.delete-option-button{
+  color: #cccccc;
+}
+
+.delete-question-button:hover,.delete-option-button:hover{
+  color:darkred;
 }

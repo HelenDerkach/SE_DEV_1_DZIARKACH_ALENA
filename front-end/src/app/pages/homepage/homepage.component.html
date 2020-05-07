@@ -1,12 +1,16 @@
 <div class="home-wrapper">
 	<app-home [_user] = 'currentUser'></app-home>
 	<div class="home-page__form-wrapper">
-		<div *ngFor="let form of forms">
+		<div *ngFor="let form of publishedForms">
 		    <app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
 		</div>
-		<button mat-fab color="accent" class="add-form-button" (click)="createForm()">
-			<fa-icon [icon]="plusIcon" size="lg"></fa-icon>
-		</button>
+		<h2>Drafts:</h2>
+    <div *ngFor="let form of drafts">
+      <app-form [_form]="form" (formDetails)="editForm($event)"></app-form>
+    </div>
 	</div>
+  <button mat-fab color="accent" class="add-form-button" (click)="createForm()">
+    <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+  </button>
 </div>
 <app-menu></app-menu>

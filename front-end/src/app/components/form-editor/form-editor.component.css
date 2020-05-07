@@ -10,8 +10,8 @@
 }
 
 .form-wrapper{
-	width: 60rem;
-	
+	width: 55rem;
+
 	margin: auto;
 	margin-bottom: 5%;
 	padding: 2rem 4rem;
@@ -30,13 +30,96 @@
 
 .form-name{
 	font-size: 3rem;
-	
 }
 
 .form-description{
 	font-size: 2rem;
 }
 
-.add-question-button{
-	margin: 2rem auto;
+.action-button{
+	margin: 1rem 2rem;
+}
+
+.buttons-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.action-buttons-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.question-wrapper{
+  padding: 1rem 3rem 2rem 2rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #fbfaf9;
+  position: relative;
+  background: #FBFAF9;
+}
+
+.question-wrapper:hover{
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.1);
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 10px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+  0 8px 10px 1px rgba(0, 0, 0, 0.14),
+  0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.questions-wrapper.cdk-drop-list-dragging .question-wrapper:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.drag-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #3c5096;
+  cursor: move;
+  width: 0.5rem;
+  height: 100%;
+  margin: 0;
+  border-radius: 10px 0 0 10px;
+}
+
+.back{
+  width: 8rem;
+  margin-bottom: 1rem;
+}
+
+.theme{
+  padding: 1rem 1rem 2rem 0rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #3c5096;
+  position: relative;
+  background: #FBFAF9;
+  min-height: 20rem;
+}
+
+.theme h1{
+  position: absolute;
+  top: 0;
+  font-size: 18px;
+  line-height: 1;
+  margin: -9px 0 0; /* half of font-size */
+  background: #FBFAF9;
+  padding: 0 3px;
 }

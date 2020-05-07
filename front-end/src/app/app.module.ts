@@ -13,6 +13,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartsModule } from 'ng2-charts';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { LoginPageComponent } from './pages/login/login-page.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
@@ -31,6 +32,9 @@ import { TabsComponent } from './components/tabs/tabs.component';
 import { FormDataComponent } from './components/form-data/form-data.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { MenuComponent } from './components/menu/menu.component';
+import { DraftsComponent } from './components/drafts/drafts.component';
+import { ThemeComponent } from './components/themes/theme.component';
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,10 @@ import { MenuComponent } from './components/menu/menu.component';
     TabsComponent,
     FormDataComponent,
     AdminPageComponent,
-    MenuComponent
+    MenuComponent,
+    DraftsComponent,
+    ThemeComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +69,8 @@ import { MenuComponent } from './components/menu/menu.component';
     MaterialModuleModule,
     ChartsModule,
     AppRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    DragDropModule,
   ],
   providers: [
     {provide: ErrorStateMatcher}

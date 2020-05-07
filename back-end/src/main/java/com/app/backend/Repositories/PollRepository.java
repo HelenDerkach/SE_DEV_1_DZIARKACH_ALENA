@@ -8,4 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface PollRepository extends PagingAndSortingRepository<Poll,Integer> {
+//    public Poll createPoll(Poll poll){
+//
+//    }
 }

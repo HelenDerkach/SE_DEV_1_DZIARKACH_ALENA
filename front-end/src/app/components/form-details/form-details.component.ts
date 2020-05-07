@@ -19,7 +19,7 @@ export class FormDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.questions = Questions.filter((question)=>question.formId == this._currentForm.id);
+    this.questions = Questions.filter((question) => question.formId === this._currentForm.id);
   }
 
 }

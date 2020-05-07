@@ -4,7 +4,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Forms } from '../../mock-forms';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-
 import { AuthenticationService } from '../../services/authentication-service.service';
 
 @Component({
@@ -14,17 +13,18 @@ import { AuthenticationService } from '../../services/authentication-service.ser
 })
 export class HomepageComponent implements OnInit {
   plusIcon = faPlus;
-
-	public currentUser;
-  public forms;
+  public currentUser;
+  public publishedForms;
+  public drafts;
 
   constructor(private _router: Router,
-              private authenticationService : AuthenticationService,
-              private toastr: ToastrService) { 
-  	this.currentUser = localStorage.getItem('currentUser')? 
-      JSON.parse(localStorage.getItem('currentUser')) : 
+              private authenticationService: AuthenticationService,
+              private toastr: ToastrService) {
+    this.currentUser = localStorage.getItem('currentUser') ?
+      JSON.parse(localStorage.getItem('currentUser')) :
       this._router.navigate(['/login']);
-    this.forms = Forms.filter((form)=>form.userId == this.currentUser.id);
+    this.publishedForms = Forms.filter((form) => (form.userId === this.currentUser.id) && (form.isPublished === true));
+    this.drafts = Forms.filter((form) => (form.userId === this.currentUser.id) && (form.isPublished === false));
   }
 
   ngOnInit(): void {
@@ -32,11 +32,14 @@ export class HomepageComponent implements OnInit {
   }
 
   createForm() {
-    this._router.navigate(['/createForm']);
+    this._router.navigate(['createForm', 'new']);
   }
 
-  showFormDetails(event){
+  showFormDetails(event) {
     this._router.navigate(['form', event]);
   }
 
+  editForm(event) {
+    this._router.navigate(['createForm', event]);
+  }
 }
