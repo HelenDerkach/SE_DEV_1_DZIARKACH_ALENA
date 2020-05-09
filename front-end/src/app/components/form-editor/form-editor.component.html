@@ -12,21 +12,24 @@
 	</mat-form-field>
   <div class="data-wrapper" cdkDropListGroup>
     <div class="themes-wrapper">
+      <div class="theme-wrapper" *ngIf="newForm.themes">
         <div class="theme" cdkDropList (cdkDropListDropped)="drop($event)"
-             *ngFor="let theme of themes">
+             *ngFor="let theme of newForm.themes">
           <h1>Name</h1>
           <div class="theme-questions" *ngFor="let question of theme.questions"></div>
         </div>
+      </div>
       <button mat-fab color="primary" title="Add theme" class="action-button" (click)="newTheme()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
     </div>
     <div class="questions-wrapper" cdkDropList (cdkDropListDropped)="drop($event)">
-      <div class="question-wrapper" *ngFor="let question of questions"  cdkDrag>
+      <div class="question-wrapper" *ngFor="let question of newForm.questions"  cdkDrag>
         <div class="drag-handle" cdkDragHandle></div>
         <app-question
           [_question]="question"
           [_isEditable]="true"
+          [questionTypes]="questionTypes"
           (valid)="onQuestionValid($event)"
           (delete)="onQuestionDelete($event)"></app-question>
       </div>

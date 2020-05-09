@@ -11,9 +11,9 @@ import java.util.List;
 @Table (name = "polls")
 @Data
 //@Builder
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 public class Poll {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

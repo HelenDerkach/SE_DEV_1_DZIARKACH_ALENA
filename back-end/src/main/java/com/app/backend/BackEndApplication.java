@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BackEndApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", "/api");
 		SpringApplication.run(BackEndApplication.class, args);
 	}
 

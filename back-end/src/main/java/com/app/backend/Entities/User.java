@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -23,14 +24,13 @@ public class User {
   private String email;
 
   private String phone;
-
-  @JsonIgnore
   private String password;
 
   @ManyToOne
   @JoinColumn(name="role")
   private Role role;
 
+  @ToString.Exclude
   @OneToMany(mappedBy = "user")
   @JsonManagedReference (value="user-polls")
   private List<Poll> polls;

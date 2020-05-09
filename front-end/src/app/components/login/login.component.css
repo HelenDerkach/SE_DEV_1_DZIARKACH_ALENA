@@ -1,7 +1,6 @@
 .form-wrapper{
 	width: 40rem;
-	height: 20rem;
-	
+
 	position: relative;
 	top: 5%;
 	margin: auto;
@@ -52,4 +51,8 @@ mat-form-field{
 .mat-raised-button{
 	margin: 2rem 0;
 	width: 15rem;
+}
+
+.error{
+  color: darkred;
 }

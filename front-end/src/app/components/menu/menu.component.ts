@@ -4,7 +4,7 @@ import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from "@angular/router";
 
-import { AuthenticationService } from '../../services/authentication-service.service';
+import { UserService } from '../../services/user-service.service';
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit {
 	logOutIcon = faSignOutAlt;
 
   constructor(private _router: Router,
-              private authenticationService : AuthenticationService,
+              private authenticationService : UserService,
               private toastr: ToastrService) { }
 
   ngOnInit(): void {

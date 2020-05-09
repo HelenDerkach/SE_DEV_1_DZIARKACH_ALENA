@@ -4,6 +4,7 @@ import { QuestionChoice } from '../../models/question-choice.model';
 import { FormGroup, FormControl, FormBuilder, FormArray, FormGroupDirective, NgForm, Validators, AbstractControl} from '@angular/forms';
 import { QuestionService } from '../../services/question-service.service';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {QuestionType} from '../../models/question-type.model';
 
 @Component({
   selector: 'app-question',
@@ -16,13 +17,14 @@ export class QuestionComponent implements OnInit  {
   @Input()
 	_question: Question;
   @Input()
+  questionTypes: QuestionType[];
+  @Input()
   _isEditable: boolean;
+
   @Output()
   valid = new EventEmitter<boolean>();
   @Output()
   delete = new EventEmitter<number>();
-
-  questionChoices: QuestionChoice[];
 
 	_questionForm: FormGroup;
   optionsArray: FormArray = new FormArray([]);
@@ -30,28 +32,14 @@ export class QuestionComponent implements OnInit  {
   constructor(private fb: FormBuilder, private questionService: QuestionService) { }
 
   ngOnInit(): void {
+    console.log(this._question);
     this.valid.emit(false);
-    if (this._question !== null) {
-      this.questionChoices = this.questionService.getOptions(this._question.id);
-      this._questionForm = this.fb.group({
-        text: [this._question.text, Validators.required],
-        type: [this._question.type, Validators.required],
-        required: [this._question.required, Validators.required],
-        choices: this.addOptionArray()
-      });
-
-      if (!this.questionChoices) {
-        this.optionsArray.push(this.getOption(new QuestionChoice()));
-      }
-    } else {
-      this._questionForm = this.fb.group({
-        text: [this._question.text, Validators.required],
-        type: [this._question.type, Validators.required],
-        required: [this._question.required, Validators.required],
-        choices: this.addOptionArray()
-      });
-    }
-    this._questionForm.get('required').setValue(false);
+    this._questionForm = new FormGroup({
+      text: new FormControl(this._question.text ? this._question.text : '', [Validators.required, Validators.minLength(5)]),
+      type: new FormControl(this._question.type ? this._question.type.name : '', [Validators.required]),
+      required: new FormControl(this._question.required ? this._question.required : false, [Validators.required]),
+      choices: this.addOptionArray()
+    });
     this.onChanges();
     this.onFormValidation();
   }
@@ -75,8 +63,8 @@ export class QuestionComponent implements OnInit  {
   }
 
   addOptionArray(): FormArray {
-    if (this.questionChoices.length !== 0) {
-      this.questionChoices.forEach((option) => {
+    if (this._question.questionChoices) {
+      this._question.questionChoices.forEach((option) => {
         this.optionsArray.push(this.getOption(option));
       });
     } else {
@@ -95,8 +83,9 @@ export class QuestionComponent implements OnInit  {
     if ((this._questionForm.valid) || (!this._questionForm.controls.choices.valid && this._questionForm.value.type === 'text')) {
       this.valid.emit(true);
       this._question.text = this._questionForm.get('text').value;
-      this._question.type = this._questionForm.get('type').value;
+      this._question.type = this.questionTypes.find((type) => type.name === this._questionForm.get('type').value);
       this._question.required = this._questionForm.get('required').value;
+      this._question.questionChoices = this.optionsArray.value;
     } else {
       this.valid.emit(false);
     }

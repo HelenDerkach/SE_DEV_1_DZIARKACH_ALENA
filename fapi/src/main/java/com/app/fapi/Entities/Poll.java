@@ -1,6 +1,9 @@
 package com.app.fapi.Entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class Poll {
@@ -16,4 +19,6 @@ public class Poll {
     private Boolean is_published;
 
     private User user;
+    private List<Question> questions;
+    private List<Theme> themes;
 }

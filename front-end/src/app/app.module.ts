@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
@@ -61,6 +62,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     ToastrModule.forRoot(),
     NgxMaskModule.forRoot(),
     FormsModule,

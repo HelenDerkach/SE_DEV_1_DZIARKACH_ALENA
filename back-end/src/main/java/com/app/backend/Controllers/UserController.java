@@ -30,7 +30,12 @@ public class UserController {
     return userService.getUserById(Integer.parseInt(id));
   }
 
-  @PostMapping(path="/new")
+  @PostMapping(path="/authentication")
+  public @ResponseBody Optional<User> authenticateUser(@RequestBody User user) {
+    return userService.authenticateUser(user);
+  }
+
+  @PostMapping(path="/registration")
   public @ResponseBody User addNewUser(@RequestBody User user) {
     return userService.createUser(user);
   }

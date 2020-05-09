@@ -1,24 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Question } from '../models/question.model';
 import { QuestionChoice } from '../models/question-choice.model';
-import { Questions } from '../mock-questions';
 import { Choices } from '../mock-options';
+import {Observable} from 'rxjs';
+import {QuestionType} from '../models/question-type.model';
+import {HttpClient} from '@angular/common/http';
+import {map} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class QuestionService {
-  questions: Question[];
-  choices: QuestionChoice[];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  public getQuestions(formId: number) {
-    return Questions.filter((question) => question.formId == formId);
+  public getQuestionsTypes(): Observable<QuestionType[]> {
+    return this.http.get<QuestionType[]>(`/api/questionTypes/all`)
+      .pipe(map(types => {
+        return types;
+      }));
   }
-
-  public getOptions(questionId: number) {
-    return Choices.filter((option) => option.questionId == questionId);
-  }
-  // TODO save, update methods
 }

@@ -46,7 +46,11 @@ mat-form-field{
 	width: 80%;
 }
 
+.error{
+  color:darkred;
+}
+
 .mat-raised-button{
-	margin: 2rem 0;
+	margin-top: 2rem;
 	width: 15rem;
 }

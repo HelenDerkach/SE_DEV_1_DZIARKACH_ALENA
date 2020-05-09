@@ -1,27 +1,31 @@
-//package com.app.fapi.Controllers;
-//
-//import com.app.fapi.Entities.Poll;
-//import com.app.fapi.Repositories.PollRepository;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Controller;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.Optional;
-//
-//@Controller
-//@RequestMapping(path="/polls")
-//public class PollController {
-//    @Autowired
-//    private PollRepository pollRepository;
-//
-//    @GetMapping(path = "/all")
-//    public @ResponseBody Iterable<Poll> getAllPolls() {
-//        return pollRepository.findAll();
-//    }
-//
-//    @GetMapping(path = "/{id}")
-//    public @ResponseBody Optional<Poll> getPollById(@PathVariable String id)
-//    { return pollRepository.findById(Integer.parseInt(id)); }
+package com.app.fapi.Controllers;
+
+import com.app.fapi.Entities.Poll;
+import com.app.fapi.Services.PollService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+
+@Controller
+@RequestMapping(path="/polls")
+public class PollController {
+    private PollService pollService;
+
+    @Autowired
+    public PollController(PollService pollService) {
+        this.pollService = pollService;
+    }
+
+    @GetMapping(path = "/all/{id}")
+    public @ResponseBody Poll[] getAllPollsByUserId(@PathVariable String id) {
+        return pollService.getUserPolls(Integer.parseInt(id));
+    }
+
+    @GetMapping(path = "/{id}")
+    public @ResponseBody Poll getPollById(@PathVariable String id)
+    { return pollService.getPollById(Integer.parseInt(id)); }
 //
 //    @PostMapping(path = "/new")
 //    public @ResponseBody Poll createPoll(@RequestBody Poll poll){
@@ -36,4 +40,4 @@
 //        }
 //        else return null;// TODO error handler
 //    }
-//}
+}

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Form } from '../../models/form.model';
+import { Poll } from '../../models/poll.model';
 import { ActivatedRoute} from '@angular/router';
-import { Forms } from '../../mock-forms';
+// import { Forms } from '../../mock-forms';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
@@ -11,11 +11,11 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
   styleUrls: ['./form-details-page.component.css']
 })
 export class FormDetailsPageComponent implements OnInit {
-	currentForm: Form;
+	currentForm: Poll;
   arrowIcon = faArrowLeft;
 
 	ngOnInit() {
-    this.currentForm = Forms.find((form) => form.id == this.activateRoute.snapshot.params.id);
+    // this.currentForm = Forms.find((form) => form.id == this.activateRoute.snapshot.params.id);
 	}
 
   constructor(private activateRoute: ActivatedRoute, private location: Location) {

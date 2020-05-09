@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Form } from '../../models/form.model';
+import { Poll } from '../../models/poll.model';
 import { Question } from '../../models/question.model';
-import { Questions } from '../../mock-questions';
 
 
 @Component({
@@ -11,7 +10,7 @@ import { Questions } from '../../mock-questions';
 })
 export class FormDetailsComponent implements OnInit {
   @Input()
-	_currentForm: Form;
+	_currentForm: Poll;
 
 	questions: Question[];
 
@@ -19,7 +18,7 @@ export class FormDetailsComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.questions = Questions.filter((question) => question.formId === this._currentForm.id);
+    // this.questions = Questions.filter((question) => question.formId === this._currentForm.id);
   }
 
 }

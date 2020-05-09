@@ -1,10 +1,18 @@
 package com.app.fapi.Services;
 
+import com.app.fapi.Entities.LoginForm;
+import com.app.fapi.Entities.Role;
 import com.app.fapi.Entities.User;
+import com.app.fapi.Entities.UserView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.server.ResponseStatusException;
+
 
 @Service
 public class UserService {
@@ -17,19 +25,21 @@ public class UserService {
         this.restTemplate = restTemplateBuilder.build();
     }
 
-//    public User createUser(User user){
-//        try{
-//            if (!userRepository.findUserByEmail(user.getEmail())){
-//                return userRepository.save(user);
-//            }
-//            else {
-//                throw new RuntimeException("user with this email already exists");
-//            }
-//        }
-//        catch(Exception ex){
-//            throw ex;
-//        }
-//    }
+    public UserView createUser(User newUser){
+        try{
+            newUser.setRole(new Role(1, "user"));
+            newUser = this.restTemplate.postForObject(backendUrl + "/users/registration", newUser, User.class);
+            return UserView.builder()
+                    .id(newUser.getId())
+                    .firstName(newUser.getFirstName())
+                    .lastName(newUser.getLastName())
+                    .email(newUser.getEmail())
+                    .phone(newUser.getPhone()).build();
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
 
     public User[] getAll(){
         try{
@@ -40,24 +50,25 @@ public class UserService {
         }
     }
 
-    public User login(User user){
+    public UserView login(LoginForm loginForm){
         try{
-            return this.restTemplate.getForObject(backendUrl + "/users/" + user.getId(), User.class);
+            User loggedUser = User.builder()
+                    .email(loginForm.getEmail())
+                    .password(loginForm.getPassword()).build();
+            loggedUser = this.restTemplate.postForObject(backendUrl + "/users/authentication", loggedUser, User.class);
+            return UserView.builder()
+                    .id(loggedUser.getId())
+                    .firstName(loggedUser.getFirstName())
+                    .lastName(loggedUser.getLastName())
+                    .email(loggedUser.getEmail())
+                    .phone(loggedUser.getPhone()).build();
         }
         catch(Exception ex){
-            throw ex;
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect username or password", ex
+            );
         }
     }
 
-//    public Optional<User> getUserById(Integer id){
-//        try{
-//            return userRepository.findById(id);
-//        }
-//        catch(Exception ex){
-//            throw ex;
-//        }
-//    }
-//
 //    public User updateUser(User user){
 //        return userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("User with id "+ user.getId() +" was not found"));
 //    }

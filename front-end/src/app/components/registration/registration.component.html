@@ -37,6 +37,7 @@
     		<input matInput type="password" formControlName="password" placeholder="YourPassword" value="">
     		<mat-hint>Password has to be minimum 5 characters</mat-hint>
   		</mat-form-field>
+    <p class="error" *ngIf="errorMessage !== ''">{{errorMessage}}</p>
 		<button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="!_registrationForm.valid">Register</button>
 	</form>
 </div>

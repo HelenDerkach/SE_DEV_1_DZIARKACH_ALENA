@@ -2,27 +2,27 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 
-import { AuthenticationService } from '../../services/authentication-service.service';
+import { UserService } from '../../services/user-service.service';
 
 @Component({
   selector: 'app-registration-page',
   templateUrl: './registration-page.component.html'
 })
 export class RegistrationPageComponent implements OnInit {
+  errorMessage: string;
 
     constructor(private _router: Router,
-              private authenticationService : AuthenticationService,
+              private userService: UserService,
               private toastr: ToastrService
               ) {}
 
   onSubmit(event) {
-  	event.id = 1;
-    this.authenticationService.login(event).subscribe(
+    this.userService.registration(event).subscribe(
       data => {
         this._router.navigate(['/home']);
         },
       error => {
-        this.toastr.error(error.error.message, 'Error');
+        this.errorMessage = error.error.message;
       });
   }
 

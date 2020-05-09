@@ -2,7 +2,9 @@ package com.app.backend.Services;
 import com.app.backend.Entities.User;
 import com.app.backend.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -17,11 +19,11 @@ public class UserService {
 
     public User createUser(User user){
         try{
-            if (!userRepository.findUserByEmail(user.getEmail())){
-                return userRepository.save(user);
+            if (userRepository.findUserByEmail(user.getEmail()).isPresent()){
+                throw new RuntimeException("User with this email already exists");
             }
             else {
-                throw new RuntimeException("user with this email already exists");
+                return userRepository.save(user);
             }
         }
         catch(Exception ex){
@@ -49,5 +51,19 @@ public class UserService {
 
     public User updateUser(User user){
         return userRepository.findById(user.getId()).orElseThrow(() -> new RuntimeException("User with id "+ user.getId() +" was not found"));
+    }
+
+    public Optional<User> authenticateUser(User user){
+        Optional<User> loggedUser = userRepository.findUserByEmail(user.getEmail());
+        if (loggedUser.isPresent()){
+            if(loggedUser.get().getPassword().equals(user.getPassword())){
+                return loggedUser;
+            } else {
+                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect password");
+            }
+        }
+        else {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Incorrect email");
+        }
     }
 }

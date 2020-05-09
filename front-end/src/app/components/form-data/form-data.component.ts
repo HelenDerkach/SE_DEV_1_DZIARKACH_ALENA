@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Form } from '../../models/form.model';
+import { Poll } from '../../models/poll.model';
 import { Question } from '../../models/question.model';
-import { Questions } from '../../mock-questions';
 import { ChartType, ChartOptions } from 'chart.js';
 import { Label } from 'ng2-charts';
 
@@ -12,19 +11,19 @@ import { Label } from 'ng2-charts';
 })
 export class FormDataComponent implements OnInit {
 	@Input()
-	_currentForm: Form;
+	_currentForm: Poll;
 
 	responses: number;
 	averageTime: number;
   questions: Question[];
 
-  constructor() {	
+  constructor() {
    }
 
   ngOnInit(): void {
     this.responses = 15;
     this.averageTime = 8;
-    this.questions = Questions.filter((question)=>question.formId == this._currentForm.id);
+    // this.questions = Questions.filter((question)=>question.formId == this._currentForm.id);
   }
 
   public pieChartOptions: ChartOptions = {
@@ -42,7 +41,7 @@ export class FormDataComponent implements OnInit {
     }
   };
   public pieChartData: number[] = [300, 500, 100, 20];
-  
+
   public pieChartColors = [
     {
       backgroundColor: ['rgba(255,0,0,0.3)', 'rgba(0,255,0,0.3)', 'rgba(0,0,255,0.3)'],

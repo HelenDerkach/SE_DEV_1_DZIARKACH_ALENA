@@ -2,32 +2,31 @@ import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
 
-import { AuthenticationService } from '../../services/authentication-service.service';
+import { UserService } from '../../services/user-service.service';
 
 @Component({
   selector: "login-page",
   templateUrl: "./login-page.component.html"
 })
 export class LoginPageComponent {
+  errorMessage: string;
 
   constructor(private _router: Router,
-              private authenticationService : AuthenticationService,
+              private userService: UserService,
               private toastr: ToastrService
               ) {}
 
   onSubmit(event) {
-    this.authenticationService.login(event).subscribe(
+    this.userService.login(event).subscribe(
       data => {
-        if(data.role === 2){
-          this._router.navigate(['/admin']);
-        }
-        else{
-          this._router.navigate(['/home']);
-        }
-        
+          if (data.role === 2) {
+            this._router.navigate(['/admin']);
+          } else {
+            this._router.navigate(['/home']);
+          }
         },
       error => {
-        this.toastr.error(error.error.message, 'Error');
+        this.errorMessage = error.error.message;
       });
   }
 }

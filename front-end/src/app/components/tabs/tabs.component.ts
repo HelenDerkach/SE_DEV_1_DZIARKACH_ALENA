@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Form } from '../../models/form.model';
+import { Poll } from '../../models/poll.model';
 
 @Component({
   selector: 'app-tabs',
@@ -8,9 +8,9 @@ import { Form } from '../../models/form.model';
 })
 export class TabsComponent implements OnInit {
 	@Input()
-	form: Form;
+	form: Poll;
 
-	_form: Form;
+	_form: Poll;
 
 	ngOnInit() {
 

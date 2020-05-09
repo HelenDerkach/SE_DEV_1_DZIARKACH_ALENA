@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FapiApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("server.servlet.context-path", "/fapi");
+		System.setProperty("server.servlet.context-path", "/api");
 		SpringApplication.run(FapiApplication.class, args);
 	}
 

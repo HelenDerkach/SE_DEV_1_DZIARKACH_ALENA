@@ -1,6 +1,8 @@
 package com.app.fapi.Controllers;
 
+import com.app.fapi.Entities.LoginForm;
 import com.app.fapi.Entities.User;
+import com.app.fapi.Entities.UserView;
 import com.app.fapi.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,13 +26,13 @@ public class UserController {
     return userService.getAll();
   }
 
-  @GetMapping(path="/login")
-  public @ResponseBody User getUserById(@RequestBody User user) {
-    return userService.login(user);
+  @PostMapping(path="/authentication")
+  public @ResponseBody UserView login(@RequestBody LoginForm loginForm) {
+    return userService.login(loginForm);
   }
-//
-//  @PostMapping(path="/new")
-//  public @ResponseBody User addNewUser(@RequestBody User user) {
-//    return userService.createUser(user);
-//  }
+
+  @PostMapping(path="/registration")
+  public @ResponseBody UserView addNewUser(@RequestBody User user) {
+    return userService.createUser(user);
+  }
 }
