@@ -9,9 +9,7 @@
 	  		<mat-label>Select type of question</mat-label>
 			  <mat-select formControlName="type">
 			  	<option label="--select something --"></option>
-			    <mat-option *ngFor="let type of questionTypes" value="{{type.name}}">{{type.name}}</mat-option>
-<!--			    <mat-option value="radio">Single option</mat-option>-->
-<!--			    <mat-option value="checkbox">Multiple options</mat-option>-->
+			    <mat-option *ngFor="let type of questionTypes" value="{{type.id}}">{{type.name}}</mat-option>
 			  </mat-select>
 		</mat-form-field>
     <button mat-icon-button class="delete-question-button" (click)="deleteQuestion()">
@@ -20,20 +18,20 @@
 	</div>
   <div class="question-body">
     <div class="question-options" [ngSwitch]="_questionForm.controls['type'].value">
-      <div *ngSwitchCase="'text'">
+      <div *ngSwitchCase="'1'">
         <mat-form-field>
           <mat-label>Answer</mat-label>
           <input matInput type="text" placeholder="" value="" readonly>
         </mat-form-field>
       </div>
-      <div *ngSwitchCase="'radio'">
+      <div *ngSwitchCase="'2'">
         <div class="question-options-group" formArrayName="choices">
           <mat-radio-button class="question-option" *ngFor="let option of optionsArray.controls; let i=index" [formGroupName]="i">
             <div class="option-wrapper">
               <mat-form-field>
                 <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
               </mat-form-field>
-              <button mat-icon-button class="delete-option-button" (click)="deleteOption()">
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)">
                 <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
               </button>
             </div>
@@ -41,14 +39,14 @@
         </div>
         <button mat-stroked-button color="primary" *ngIf="_isEditable" class="add-option-button" (click)="addOption()">Add option</button>
       </div>
-      <div *ngSwitchCase="'checkbox'">
+      <div *ngSwitchCase="'3'">
         <div class="question-options-group" formArrayName="choices">
           <mat-checkbox class="question-option" *ngFor="let option of optionsArray.controls; let i=index" [formGroupName]="i">
             <div class="option-wrapper">
               <mat-form-field>
                 <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
               </mat-form-field>
-              <button mat-icon-button class="delete-option-button" (click)="deleteOption()">
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)">
                 <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
               </button>
             </div>

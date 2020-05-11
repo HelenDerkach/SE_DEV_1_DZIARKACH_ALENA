@@ -6,7 +6,7 @@ export class Question {
 	text: string;
 	type: QuestionType;
 	themeId: number;
-	required: boolean;
+	is_required: boolean;
 	position: number;
 	questionChoices: QuestionChoice[];
   constructor(position: number) {

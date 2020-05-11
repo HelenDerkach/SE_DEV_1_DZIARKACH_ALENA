@@ -1,56 +1,64 @@
-<div class="form-wrapper" [formGroup]="_formData">
-  <button mat-stroked-button class="back" (click)="back()">
-    BACK
-  </button>
-	<mat-form-field>
-		<mat-label>Form name</mat-label>
-		<input class="form-name form-input" matInput formControlName="formName" type="text" placeholder="Your form name" value="NewForm">
-	</mat-form-field>
-	<mat-form-field>
-		<mat-label>Form description</mat-label>
-		<input class="form-description form-input" matInput formControlName="description" type="text" placeholder="Form description" value="Tell respondents about your form">
-	</mat-form-field>
-  <div class="data-wrapper" cdkDropListGroup>
-    <div class="themes-wrapper">
-      <div class="theme-wrapper" *ngIf="newForm.themes">
-        <div class="theme" cdkDropList (cdkDropListDropped)="drop($event)"
-             *ngFor="let theme of newForm.themes">
-          <h1>Name</h1>
-          <div class="theme-questions" *ngFor="let question of theme.questions"></div>
+<app-loader [loading]="loading"></app-loader>
+<div *ngIf="!loading">
+  <div class="form-wrapper" [formGroup]="_formData">
+    <button mat-stroked-button class="back" (click)="back()">
+      BACK
+    </button>
+    <mat-form-field>
+      <mat-label>Form name</mat-label>
+      <input class="form-name form-input" matInput formControlName="formName" type="text" placeholder="Your form name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Form description</mat-label>
+      <input class="form-description form-input" matInput formControlName="description" type="text" placeholder="Form description" value="Tell respondents about your form">
+    </mat-form-field>
+    <div class="data-wrapper" cdkDropListGroup>
+      <div class="questions-wrapper" cdkDropList (cdkDropListDropped)="drop($event)">
+        <div class="question-wrapper" *ngFor="let question of this.newForm.questions" cdkDrag>
+          <div class="drag-handle" cdkDragHandle></div>
+          <app-question
+            [_question]="question"
+            [_isEditable]="true"
+            [questionTypes]="questionTypes"
+            (valid)="onQuestionValid($event)"
+            (delete)="onQuestionDelete($event)"></app-question>
         </div>
       </div>
+    </div>
+    <div class="action-buttons-wrapper">
+      <button mat-fab color="accent" title="Add question" class="action-button" (click)="newQuestion()">
+        <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+      </button>
       <button mat-fab color="primary" title="Add theme" class="action-button" (click)="newTheme()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
     </div>
-    <div class="questions-wrapper" cdkDropList (cdkDropListDropped)="drop($event)">
-      <div class="question-wrapper" *ngFor="let question of newForm.questions"  cdkDrag>
-        <div class="drag-handle" cdkDragHandle></div>
-        <app-question
-          [_question]="question"
-          [_isEditable]="true"
-          [questionTypes]="questionTypes"
-          (valid)="onQuestionValid($event)"
-          (delete)="onQuestionDelete($event)"></app-question>
+    <div class="date-wrapper">
+      <div class="date-required">
+        <mat-slide-toggle class="date-slider" formControlName="time_limited">
+          Is time-limited
+        </mat-slide-toggle>
+        <div class="datepicker-wrapper" *ngIf="_formData.value.time_limited">
+          <label>
+            Date Time Range From:
+            <input [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
+                   formControlName="startsAt"
+                   [selectMode]="'range'">
+            <owl-date-time #dt1></owl-date-time>
+          </label>
+          <div *ngIf="_formData.controls.startsAt.invalid && _formData.controls.startsAt.errors.owlDateTimeRange">
+            Date Time value must be before {{_formData.controls.startsAt | date: 'medium'}}
+          </div>
+        </div>
+      </div>
+      <div class="buttons-wrapper">
+        <button mat-raised-button class="save-button" color="accent" (click)="onSubmit(false)" [disabled]="!_formData.valid">
+          Save to drafts
+        </button>
+        <button mat-raised-button class="publish-button" color="primary" (click)="onSubmit(true)" [disabled]="!_formData.valid || !questionsValid">
+          Publish
+        </button>
       </div>
     </div>
-  </div>
-
-  <div class="action-buttons-wrapper">
-    <button mat-fab color="accent" title="Add question" class="action-button" (click)="newQuestion()">
-      <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
-    </button>
-
-  </div>
-  <div class="buttons-wrapper">
-    <button mat-raised-button class="new-theme-button" color="accent" (click)="onSubmit()" [disabled]="!_formData.valid">
-      Create new theme
-    </button>
-    <button mat-raised-button class="save-button" color="accent" (click)="onSubmit()" [disabled]="!_formData.valid">
-      Save to drafts
-    </button>
-    <button mat-raised-button class="publish-button" color="primary" (click)="onSubmit()" [disabled]="!_formData.valid || !questionsValid">
-      Publish
-    </button>
   </div>
 </div>

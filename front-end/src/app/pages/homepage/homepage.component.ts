@@ -20,12 +20,16 @@ export class HomepageComponent implements OnInit {
   drafts;
   errorMessage;
   loading = false;
+  pageNumber;
 
   constructor(private _router: Router, private userService: UserService, private pollService: PollService) {
     this.currentUser = userService.currentUserValue;
   }
 
   ngOnInit(): void {
+    this.pageNumber = 0;
+    this.publishedForms = [];
+    this.drafts = [];
     this.getForms();
   }
 
@@ -56,5 +60,15 @@ export class HomepageComponent implements OnInit {
         this.loading = false;
         this.errorMessage = error.error.message;
       });
+
+    // this.pollService.getUserPublishedPages(this.pageNumber).subscribe(
+    //   data => {
+    //     this.publishedForms = data;
+    //     this.loading = false;
+    //   },
+    //   error => {
+    //     this.loading = false;
+    //     this.errorMessage = error.error.message;
+    //   });
   }
 }

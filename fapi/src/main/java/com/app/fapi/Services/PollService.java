@@ -27,9 +27,39 @@ public class PollService {
         }
     }
 
+    public Poll[] getPublishedPagesByUserId(Integer id, Integer pageNumber){
+        try{
+            return this.restTemplate.getForObject(backendUrl + "/polls/published/userId={id}/pageNumber={pageNumber}", Poll[].class, id, pageNumber);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
+    public Integer getUserPollsCount(Integer id){
+        try{
+            return this.restTemplate.getForObject(backendUrl + "/polls/all/{id}/count", Integer.class,id);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
     public Poll getPollById(Integer id){
         try{
             return this.restTemplate.getForObject(backendUrl + "/polls/{id}", Poll.class, id);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
+    public Poll save(Poll poll){
+        try{
+            if(poll.getIs_published()){
+                poll.setUrl(java.util.UUID.randomUUID().toString());
+            }
+            return this.restTemplate.postForObject(backendUrl + "/polls/new", poll, Poll.class);
         }
         catch(Exception ex){
             throw ex;

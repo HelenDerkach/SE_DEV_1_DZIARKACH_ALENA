@@ -21,14 +21,28 @@ export class PollService {
   }
 
   getUserPolls(): Observable<Poll[]> {
-    return this.http.get<Poll[]>(`/api/polls/all/` + this.currentUser.id )
+    return this.http.get<Poll[]>(`/api/polls/all/${this.currentUser.id}`)
+      .pipe(map(forms => {
+        return forms;
+      }));
+  }
+
+  getUserPublishedPages(pageNumber: number): Observable<Poll[]> {
+    return this.http.get<Poll[]>(`/api/polls/published/userId=${this.currentUser.id}/pageNumber=${pageNumber}`)
       .pipe(map(forms => {
         return forms;
       }));
   }
 
   getPollById(id: string): Observable<Poll> {
-    return this.http.get<Poll>(`/api/polls/` + id )
+    return this.http.get<Poll>(`/api/polls/${id}`)
+      .pipe(map(form => {
+        return form;
+      }));
+  }
+
+  savePoll(poll: Poll): Observable<Poll> {
+    return this.http.post<Poll>(`/api/polls/new`, poll)
       .pipe(map(form => {
         return form;
       }));

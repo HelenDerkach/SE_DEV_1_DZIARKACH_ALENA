@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -28,18 +29,23 @@ public class PollController {
 //    }
 
     @GetMapping(path = "/all/{id}")
-    public @ResponseBody Iterable<Poll> getAllPolls(@PathVariable String id) {
+    public @ResponseBody Iterable<Poll> getAllUserPolls(@PathVariable String id) {
         return pollService.getPollsByUserId(Integer.parseInt(id));
     }
+
+//    @GetMapping(path = "/published/userId={id}/pageNumber={pageNumber}")
+//    public @ResponseBody List<Poll> findPublishedPagesByUserId(@PathVariable String id, @PathVariable String pageNumber) {
+//        return pollService.findPublishedPagesByUserId(Integer.parseInt(id), Integer.parseInt(pageNumber));
+//    }
 
     @GetMapping(path = "/{id}")
     public @ResponseBody Optional<Poll> getPollById(@PathVariable String id)
     { return pollService.getPollById(Integer.parseInt(id)); }
-//
-//    @PostMapping(path = "/new")
-//    public @ResponseBody Poll createPoll(@RequestBody Poll poll){
-//        return pollRepository.save(poll);
-//    }
+
+    @PostMapping(path = "/new")
+    public @ResponseBody Poll createPoll(@RequestBody Poll poll){
+        return pollService.save(poll);
+    }
 //
 //    @PutMapping(path = "/{id}")
 //    public @ResponseBody Poll updatePoll(@RequestBody Poll poll)

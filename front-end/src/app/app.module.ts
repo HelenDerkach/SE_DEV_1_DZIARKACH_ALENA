@@ -9,6 +9,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { MaterialModuleModule } from './modules/material-module.module';
+import { OwlDateTimeModule, OwlNativeDateTimeModule } from 'ng-pick-datetime';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,6 +37,7 @@ import { MenuComponent } from './components/menu/menu.component';
 import { DraftsComponent } from './components/drafts/drafts.component';
 import { ThemeComponent } from './components/themes/theme.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     MenuComponent,
     DraftsComponent,
     ThemeComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,6 +76,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
     AppRoutingModule,
     FontAwesomeModule,
     DragDropModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
   ],
   providers: [
     {provide: ErrorStateMatcher}

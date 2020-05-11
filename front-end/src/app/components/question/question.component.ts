@@ -32,12 +32,14 @@ export class QuestionComponent implements OnInit  {
   constructor(private fb: FormBuilder, private questionService: QuestionService) { }
 
   ngOnInit(): void {
-    console.log(this._question);
+    if (!this._question?.questionChoices) {
+      this._question.questionChoices = [];
+    }
     this.valid.emit(false);
     this._questionForm = new FormGroup({
-      text: new FormControl(this._question.text ? this._question.text : '', [Validators.required, Validators.minLength(5)]),
-      type: new FormControl(this._question.type ? this._question.type.name : '', [Validators.required]),
-      required: new FormControl(this._question.required ? this._question.required : false, [Validators.required]),
+      text: new FormControl(this._question?.text ? this._question.text : '', [Validators.required, Validators.minLength(5)]),
+      type: new FormControl(this._question?.type ? this._question.type.id : '', [Validators.required]),
+      required: new FormControl(this._question?.is_required ? this._question.is_required : false, [Validators.required]),
       choices: this.addOptionArray()
     });
     this.onChanges();
@@ -55,20 +57,22 @@ export class QuestionComponent implements OnInit  {
   }
 
   addOption() {
-    this.optionsArray.push(this.getOption(new QuestionChoice()));
+    this.optionsArray.push(this.getOption(new QuestionChoice('')));
   }
 
-  deleteOption(): void {
-    // this.optionsArray.split()
+  deleteOption(i: number): void {
+    if (i !== -1) {
+      this.optionsArray.removeAt(i);
+    }
   }
 
   addOptionArray(): FormArray {
-    if (this._question.questionChoices) {
+    if (this._question?.questionChoices) {
       this._question.questionChoices.forEach((option) => {
         this.optionsArray.push(this.getOption(option));
       });
     } else {
-      this.optionsArray.push(this.getOption(new QuestionChoice()));
+      this.optionsArray.push(this.getOption(new QuestionChoice('')));
     }
     return this.optionsArray;
   }
@@ -76,16 +80,19 @@ export class QuestionComponent implements OnInit  {
   getOption(option: QuestionChoice): FormGroup {
     return this.fb.group({
       val: [option.text, [Validators.required]]
-    });
+    }, { updateOn: 'blur' });
   }
 
   onFormValidation(): void {
     if ((this._questionForm.valid) || (!this._questionForm.controls.choices.valid && this._questionForm.value.type === 'text')) {
       this.valid.emit(true);
       this._question.text = this._questionForm.get('text').value;
-      this._question.type = this.questionTypes.find((type) => type.name === this._questionForm.get('type').value);
-      this._question.required = this._questionForm.get('required').value;
-      this._question.questionChoices = this.optionsArray.value;
+      this._question.type = this.questionTypes.find((type) => type.id == this._questionForm.get('type').value);
+      this._question.is_required = this._questionForm.get('required').value;
+
+      this.optionsArray.value.forEach((value) => {
+        this._question.questionChoices.push(new QuestionChoice(value.val));
+      });
     } else {
       this.valid.emit(false);
     }

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Question } from '../models/question.model';
-import { QuestionChoice } from '../models/question-choice.model';
-import { Choices } from '../mock-options';
 import {Observable} from 'rxjs';
 import {QuestionType} from '../models/question-type.model';
 import {HttpClient} from '@angular/common/http';

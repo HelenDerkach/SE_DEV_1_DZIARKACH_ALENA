@@ -23,21 +23,23 @@ public class PollController {
         return pollService.getUserPolls(Integer.parseInt(id));
     }
 
+    @GetMapping(path = "/published/userId={id}/pageNumber={pageNumber}")
+    public @ResponseBody Poll[] getPublishedPagesByUserId(@PathVariable(name="id") String id, @PathVariable(name="pageNumber") String pageNumber) {
+        return pollService.getPublishedPagesByUserId(Integer.parseInt(id),Integer.parseInt(pageNumber));
+    }
+
+    @GetMapping(path = "/all/{id}/count")
+    public @ResponseBody Integer getAllPollsByUserIdCount(@PathVariable String id) {
+        return pollService.getUserPollsCount(Integer.parseInt(id));
+    }
+
     @GetMapping(path = "/{id}")
     public @ResponseBody Poll getPollById(@PathVariable String id)
     { return pollService.getPollById(Integer.parseInt(id)); }
-//
-//    @PostMapping(path = "/new")
-//    public @ResponseBody Poll createPoll(@RequestBody Poll poll){
-//        return pollRepository.save(poll);
-//    }
-//
-//    @PutMapping(path = "/{id}")
-//    public @ResponseBody Poll updatePoll(@RequestBody Poll poll)
-//    {
-//        if(pollRepository.existsById(poll.getId())){
-//            return pollRepository.save(poll);
-//        }
-//        else return null;// TODO error handler
-//    }
+
+    @PostMapping(path = "/new")
+    public @ResponseBody Poll createPoll(@RequestBody Poll poll){
+        return pollService.save(poll);
+    }
+
 }

@@ -2,6 +2,8 @@ package com.app.fapi.Entities;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class Question {
     private Integer id;
@@ -12,7 +14,6 @@ public class Question {
 
     private QuestionType type;
 
-    private Poll poll;
-
     private Theme theme;
+    private List<QuestionChoice> questionChoices;
 }

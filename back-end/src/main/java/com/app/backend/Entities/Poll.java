@@ -33,11 +33,11 @@ public class Poll {
     @JsonBackReference (value="user-polls")
     private User user;
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "poll")
     @JsonManagedReference (value="question-polls")
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "poll")
     @JsonManagedReference (value="theme-polls")
     private List<Theme> themes;
 }

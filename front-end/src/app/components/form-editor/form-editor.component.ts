@@ -12,6 +12,7 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-dialog.component';
 import {PollService} from '../../services/poll.service';
 import {QuestionType} from '../../models/question-type.model';
+import {UserService} from '../../services/user-service.service';
 
 @Component({
   selector: 'form-editor',
@@ -26,12 +27,11 @@ export class FormEditorComponent implements OnInit {
   questions: Question[];
   questionTypes: QuestionType[];
   questionsValid: boolean;
-  themes: Theme[];
-  themeQuestions: Question[];
   _formData: FormGroup;
-  loading = false;
+  loading = true;
+  errorMessage;
 
-  constructor(private activateRoute: ActivatedRoute, private pollService: PollService, private questionService: QuestionService,
+  constructor(private activateRoute: ActivatedRoute, private userService: UserService, private pollService: PollService, private questionService: QuestionService,
               private router: Router, private dialog: MatDialog) {
   }
 
@@ -46,12 +46,16 @@ export class FormEditorComponent implements OnInit {
   }
 
   newEmptyPoll(): void {
+    this.loading = false;
     this.newForm = new Poll();
-    this.newForm.questions = new Array();
-    this.newForm.themes = new Array();
+    this.newForm.questions = [];
+    this.newForm.themes = [];
     this._formData = new FormGroup({
       formName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       description: new FormControl('', [Validators.required, Validators.minLength(2)]),
+      time_limited: new FormControl(false, ),
+      startsAt: new FormControl(new Date(), [Validators.required]),
+      endsAt: new FormControl(new Date(), [Validators.required]),
     });
   }
 
@@ -60,10 +64,12 @@ export class FormEditorComponent implements OnInit {
     this.pollService.getPollById(this.activateRoute.snapshot.params.id).subscribe(
       data => {
         this.newForm = data;
-        console.log(this.newForm);
         this._formData = new FormGroup({
-          formName: new FormControl(this.newForm.title, [Validators.required, Validators.minLength(2)]),
-          description: new FormControl(this.newForm.description, [Validators.required, Validators.minLength(2)]),
+          formName: new FormControl(this.newForm?.title ? this.newForm.title : '', [Validators.required, Validators.minLength(2)]),
+          description: new FormControl(this.newForm?.description ? this.newForm.description : '', [Validators.required, Validators.minLength(2)]),
+          time_limited: new FormControl(false, ),
+          startsAt: new FormControl(this.newForm?.starts_at ? this.newForm.starts_at : new Date(), [Validators.required]),
+          endsAt: new FormControl(this.newForm?.ends_at ? this.newForm.ends_at : new Date(), [Validators.required]),
         });
         this.loading = false;
       },
@@ -102,8 +108,21 @@ export class FormEditorComponent implements OnInit {
     // this.themes.push(theme);
   }
 
-  onSubmit(): void {
+  onSubmit(isPublished: boolean): void {
+    this.newForm.title = this._formData.value.formName;
+    this.newForm.description = this._formData.value.description;
+    this.newForm.starts_at = this._formData.value.startsAt[0];
+    this.newForm.ends_at = this._formData.value.startsAt[1];
+    this.newForm.user = this.userService.currentUserValue;
+    this.newForm.is_published = isPublished;
     console.log(this.newForm);
+    this.pollService.savePoll(this.newForm).subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        this.errorMessage = error.error.message;
+      });
   }
 
   drop(event: CdkDragDrop<string[]>) {

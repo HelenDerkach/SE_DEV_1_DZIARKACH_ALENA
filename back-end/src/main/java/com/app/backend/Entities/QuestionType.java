@@ -15,8 +15,4 @@ public class QuestionType {
     private Integer id;
 
     private String name;
-
-    @OneToMany(mappedBy = "type")
-    @JsonIgnore
-    private List<Question> questions;
 }
