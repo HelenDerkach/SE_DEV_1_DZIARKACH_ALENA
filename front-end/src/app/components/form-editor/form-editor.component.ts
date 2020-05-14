@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Output, EventEmitter } from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
+import { formatDate } from '@angular/common';
 import { Poll } from '../../models/poll.model';
 import { Theme } from '../../models/theme.model';
 import { Question } from '../../models/question.model';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators, FormArray} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { faArrowLeft, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { QuestionService } from '../../services/question-service.service';
@@ -13,6 +13,7 @@ import {ConfirmationDialogComponent} from '../confirmation-dialog/confirmation-d
 import {PollService} from '../../services/poll.service';
 import {QuestionType} from '../../models/question-type.model';
 import {UserService} from '../../services/user-service.service';
+import {QuestionChoice} from '../../models/question-choice.model';
 
 @Component({
   selector: 'form-editor',
@@ -22,17 +23,18 @@ import {UserService} from '../../services/user-service.service';
 export class FormEditorComponent implements OnInit {
   plusIcon = faPlus;
   arrowIcon = faArrowLeft;
-// TODO change theme model, add lists and drag n drop
   newForm: Poll;
-  questions: Question[];
+  questionsNumber: number;
   questionTypes: QuestionType[];
+  themesArray: FormArray = new FormArray([]);
   questionsValid: boolean;
   _formData: FormGroup;
   loading = true;
   errorMessage;
 
-  constructor(private activateRoute: ActivatedRoute, private userService: UserService, private pollService: PollService, private questionService: QuestionService,
-              private router: Router, private dialog: MatDialog) {
+  constructor(@Inject(LOCALE_ID) private locale: string, private activateRoute: ActivatedRoute, private userService: UserService,
+              private pollService: PollService, private questionService: QuestionService,
+              private router: Router, private dialog: MatDialog, private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class FormEditorComponent implements OnInit {
     } else {
       this.loadPoll();
     }
+    this.questionsNumber = this.newForm.questions.length;
   }
 
   newEmptyPoll(): void {
@@ -56,6 +59,7 @@ export class FormEditorComponent implements OnInit {
       time_limited: new FormControl(false, ),
       startsAt: new FormControl(new Date(), [Validators.required]),
       endsAt: new FormControl(new Date(), [Validators.required]),
+      themes: this.addThemeArray(),
     });
   }
 
@@ -64,12 +68,14 @@ export class FormEditorComponent implements OnInit {
     this.pollService.getPollById(this.activateRoute.snapshot.params.id).subscribe(
       data => {
         this.newForm = data;
+        console.log(new Date(this.newForm.starts_at));
         this._formData = new FormGroup({
           formName: new FormControl(this.newForm?.title ? this.newForm.title : '', [Validators.required, Validators.minLength(2)]),
           description: new FormControl(this.newForm?.description ? this.newForm.description : '', [Validators.required, Validators.minLength(2)]),
-          time_limited: new FormControl(false, ),
-          startsAt: new FormControl(this.newForm?.starts_at ? this.newForm.starts_at : new Date(), [Validators.required]),
-          endsAt: new FormControl(this.newForm?.ends_at ? this.newForm.ends_at : new Date(), [Validators.required]),
+          time_limited: new FormControl(this.newForm?.starts_at || this.newForm?.ends_at ? true : false, ),
+          startsAt: new FormControl(this.newForm?.starts_at ? new Date(this.newForm.starts_at) : new Date(), [Validators.required]),
+          endsAt: new FormControl(this.newForm?.ends_at ? new Date(this.newForm.ends_at) : new Date(), [Validators.required]),
+          themes: this.addThemeArray(),
         });
         this.loading = false;
       },
@@ -87,7 +93,8 @@ export class FormEditorComponent implements OnInit {
   }
 
   newQuestion(): void {
-    this.newForm.questions.push(new Question(this.newForm.questions.length + 1));
+    this.questionsNumber++;
+    this.newForm.questions.push(new Question(this.questionsNumber));
   }
 
   onQuestionValid($event) {
@@ -97,32 +104,85 @@ export class FormEditorComponent implements OnInit {
   onQuestionDelete($event): void {
     if ($event !== -1) {
       this.newForm.questions.splice($event - 1, 1);
+      this.questionsNumber--;
     }
     this.updatePositions();
   }
 
   newTheme(): void {
-    // let theme = new Theme();
-    // let questions = new Array();
-    // theme.questions = questions;
-    // this.themes.push(theme);
+    let newTheme = new Theme();
+    newTheme.id = this.newForm.questions.length;
+    newTheme.questions = [];
+    this.questionsNumber++;
+    let newQuestion = new Question(this.questionsNumber);
+    newQuestion.themeId = newTheme.id;
+    newTheme.questions.push(newQuestion);
+    this.themesArray.push(this.getThemeForm(newTheme));
+    this.newForm.questions.push(newQuestion);
+    this.newForm.themes.push(newTheme);
+
+  }
+
+  addThemeArray(): FormArray {
+    if (this.newForm?.themes) {
+      this.newForm.themes.forEach((theme) => {
+        this.themesArray.push(this.getThemeForm(theme));
+      });
+    }
+    return this.themesArray;
+  }
+
+  getThemeForm(theme: Theme): FormGroup {
+    return new FormGroup({
+      name: new FormControl(theme?.title ? theme.title : '', [Validators.required])
+    });
+  }
+
+  getThemeFormGroup(i: number): FormGroup {
+    return this.themesArray.controls[i] as FormGroup;
+  }
+
+  getTheme(id: number): Theme {
+    return this.newForm.themes.find((theme) => theme.id === id);
+  }
+
+  newThemeQuestion(themeId: number): void {
+    let theme = this.getTheme(themeId);
+    let newQuestion = new Question(this.newForm.questions.length + 1);
+    newQuestion.themeId = themeId;
+    theme.questions.push(newQuestion);
   }
 
   onSubmit(isPublished: boolean): void {
     this.newForm.title = this._formData.value.formName;
     this.newForm.description = this._formData.value.description;
-    this.newForm.starts_at = this._formData.value.startsAt[0];
-    this.newForm.ends_at = this._formData.value.startsAt[1];
+    if (this._formData.value.time_limited) {
+      this.newForm.starts_at = this.transformDate(this._formData.value.startsAt[0]);
+      this.newForm.ends_at = this.transformDate(this._formData.value.startsAt[1]);
+    }
     this.newForm.user = this.userService.currentUserValue;
     this.newForm.is_published = isPublished;
+    console.log(this.themesArray.value);
+    for (let i = 0; i < this.themesArray.length; i++) {
+      this.newForm.themes[i].title = this.themesArray.value[i].name;
+      this.newForm.themes[i].is_private = true;
+    }
     console.log(this.newForm);
     this.pollService.savePoll(this.newForm).subscribe(
       data => {
-        console.log(data);
+        if (data.is_published) {
+          alert(data.url);
+        }
+        this.router.navigate(['home']);
       },
       error => {
         this.errorMessage = error.error.message;
       });
+  }
+
+
+  transformDate(date) {
+    return formatDate(date, 'yyyy-MM-dd HH:mm:ss', this.locale);
   }
 
   drop(event: CdkDragDrop<string[]>) {

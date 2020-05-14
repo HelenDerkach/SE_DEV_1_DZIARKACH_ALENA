@@ -38,6 +38,8 @@ import { DraftsComponent } from './components/drafts/drafts.component';
 import { ThemeComponent } from './components/themes/theme.component';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { SurveyPassingComponent } from './pages/survey-passing/survey-passing.component';
+import { SurveyQuestionComponent } from './components/survey-question/survey-question.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     ThemeComponent,
     ConfirmationDialogComponent,
     LoaderComponent,
+    SurveyPassingComponent,
+    SurveyQuestionComponent,
   ],
   imports: [
     BrowserModule,

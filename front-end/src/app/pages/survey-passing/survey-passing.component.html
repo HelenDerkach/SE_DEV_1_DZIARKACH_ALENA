@@ -1,0 +1,32 @@
+<app-loader [loading]="loading"></app-loader>
+<div *ngIf="!loading">
+  <div class="survey-wrapper">
+    <h2 class="form-name">{{Form.title}}</h2>
+    <h2 class="form-description">{{Form.description}}</h2>
+    <hr class="divider"/>
+    <div class="questions-wrapper">
+      <div *ngFor="let question of Form.questions; let i=index">
+        <div class="theme" *ngIf="question?.themeId || question.themeId==0; else elseBlock">
+          <h1>{{findTheme(question.themeId).title}}</h1>
+          <div class="theme-questions-wrapper"
+               *ngFor="let themeQuestion of findTheme(question.themeId).questions; first as isFirst">
+            <div *ngIf="isFirst; else themeElseBlock">
+              <app-survey-question [question]="themeQuestion" [response]="this.pollResponse.responses[i]"></app-survey-question>
+            </div>
+            <ng-template #themeElseBlock>
+              <app-survey-question [question]="question" [response]="this.pollResponse.responses[i]"></app-survey-question>
+            </ng-template>
+          </div>
+        </div>
+        <ng-template #elseBlock>
+          <div class="question-wrapper">
+            <app-survey-question [question]="question" [response]="this.pollResponse.responses[i]"></app-survey-question>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="buttons-wrapper">
+      <button mat-raised-button color="primary" (click)="sendPollResponse()">Send answer</button>
+    </div>
+  </div>
+</div>

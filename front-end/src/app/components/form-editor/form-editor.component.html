@@ -14,22 +14,60 @@
     </mat-form-field>
     <div class="data-wrapper" cdkDropListGroup>
       <div class="questions-wrapper" cdkDropList (cdkDropListDropped)="drop($event)">
-        <div class="question-wrapper" *ngFor="let question of this.newForm.questions" cdkDrag>
-          <div class="drag-handle" cdkDragHandle></div>
-          <app-question
-            [_question]="question"
-            [_isEditable]="true"
-            [questionTypes]="questionTypes"
-            (valid)="onQuestionValid($event)"
-            (delete)="onQuestionDelete($event)"></app-question>
+        <div *ngFor="let question of this.newForm.questions; let i = index" cdkDrag>
+          <div class="theme" *ngIf="question?.themeId || question.themeId==0; else elseBlock" [formGroup]="getThemeFormGroup(i)">
+            <h1>
+              <mat-form-field>
+                <input class="theme-name" matInput formControlName="name" type="text" placeholder="Your theme name">
+              </mat-form-field>
+            </h1>
+            <div class="theme-questions-wrapper"
+                 *ngFor="let themeQuestion of getTheme(question.themeId).questions; first as isFirst">
+              <div *ngIf="isFirst; else themeElseBlock">
+                <app-question
+                  [_question]="themeQuestion"
+                  [_isEditable]="true"
+                  [_isThemed]="true"
+                  [_isThemeFirst]="true"
+                  [questionTypes]="questionTypes"
+                  (valid)="onQuestionValid($event)"
+                  (delete)="onQuestionDelete($event)"></app-question>
+              </div>
+              <ng-template #themeElseBlock>
+                <app-question
+                  [_question]="themeQuestion"
+                  [_isEditable]="true"
+                  [_isThemed]="true"
+                  [_isThemeFirst]="false"
+                  [questionTypes]="questionTypes"
+                  (valid)="onQuestionValid($event)"
+                  (delete)="onQuestionDelete($event)"></app-question>
+              </ng-template>
+            </div>
+            <button mat-icon-button color="primary" title="Add theme" class="add-theme-question-button" (click)="newThemeQuestion(question.themeId)">
+              <fa-icon [icon]="plusIcon"></fa-icon>
+            </button>
+          </div>
+          <ng-template #elseBlock>
+            <div class="question-wrapper">
+              <div class="drag-handle" cdkDragHandle></div>
+              <app-question
+                [_question]="this.newForm.questions[i]"
+                [_isEditable]="true"
+                [questionTypes]="questionTypes"
+                (valid)="onQuestionValid($event)"
+                (delete)="onQuestionDelete($event)">
+              </app-question>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>
     <div class="action-buttons-wrapper">
-      <button mat-fab color="accent" title="Add question" class="action-button" (click)="newQuestion()">
+      <button mat-fab color="primary" title="Add question" class="action-button" (click)="newQuestion()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
-      <button mat-fab color="primary" title="Add theme" class="action-button" (click)="newTheme()">
+      <button mat-fab color="accent" title="Add theme" class="action-button" (click)="newTheme()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
     </div>
@@ -42,7 +80,7 @@
           <label>
             Date Time Range From:
             <input [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
-                   formControlName="startsAt"
+                   [formControl]="_formData.controls.startsAt"
                    [selectMode]="'range'">
             <owl-date-time #dt1></owl-date-time>
           </label>

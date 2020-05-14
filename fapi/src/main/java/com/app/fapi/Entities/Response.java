@@ -2,8 +2,6 @@ package com.app.fapi.Entities;
 
 import lombok.Data;
 
-
-
 @Data
 public class Response {
     private Integer id;

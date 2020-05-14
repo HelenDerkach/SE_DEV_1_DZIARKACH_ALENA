@@ -2,6 +2,7 @@ package com.app.backend.Entities;
 
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,11 +29,13 @@ public class Question {
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "poll_id")
     @JsonBackReference (value="question-polls")
+    @ToString.Exclude
     private Poll poll;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "theme_id")
     @JsonBackReference
+    @ToString.Exclude
     private Theme theme;
 
     @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)

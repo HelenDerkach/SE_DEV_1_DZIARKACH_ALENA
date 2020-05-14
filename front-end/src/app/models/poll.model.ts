@@ -7,6 +7,7 @@ export class Poll {
 	starts_at: string;
   ends_at: string;
 	title: string;
+  url: string;
 	user: User;
 	description: string;
 	is_published: boolean;

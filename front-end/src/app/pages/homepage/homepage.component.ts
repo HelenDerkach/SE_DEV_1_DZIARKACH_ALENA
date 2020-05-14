@@ -19,18 +19,21 @@ export class HomepageComponent implements OnInit {
   publishedForms;
   drafts;
   errorMessage;
-  loading = false;
-  pageNumber;
+  loading = true;
+  publishedPages;
+  draftsPages;
+  publishedLoading = false;
+  draftsLoading = false;
 
   constructor(private _router: Router, private userService: UserService, private pollService: PollService) {
     this.currentUser = userService.currentUserValue;
   }
 
   ngOnInit(): void {
-    this.pageNumber = 0;
     this.publishedForms = [];
     this.drafts = [];
-    this.getForms();
+    this.getPublished(0);
+    this.getDrafts(0);
   }
 
   createForm() {
@@ -45,30 +48,55 @@ export class HomepageComponent implements OnInit {
     this._router.navigate(['createForm', event]);
   }
 
-  getForms(): void {
-    this.loading = true;
-    this.pollService.getUserPolls().subscribe(
+  getPublished(page: number): void {
+    this.pollService.getUserPublishedPages(page).subscribe(
       data => {
-        this.Forms = data;
-        console.log(data);
-        this.publishedForms = this.Forms.filter((form) => form.is_published === true);
-        this.drafts = this.Forms.filter((form) => form.is_published === false);
-        console.log(this.publishedForms);
+        this.publishedForms = data.data;
+        this.publishedPages = data.meta.total;
         this.loading = false;
-        },
+      },
       error => {
         this.loading = false;
         this.errorMessage = error.error.message;
       });
+  }
 
-    // this.pollService.getUserPublishedPages(this.pageNumber).subscribe(
-    //   data => {
-    //     this.publishedForms = data;
-    //     this.loading = false;
-    //   },
-    //   error => {
-    //     this.loading = false;
-    //     this.errorMessage = error.error.message;
-    //   });
+  getDrafts(page: number): void {
+    this.pollService.getUserDraftsPages(page).subscribe(
+    data => {
+        this.drafts = data.data;
+        this.draftsPages = data.meta.total;
+        this.loading = false;
+      },
+      error => {
+        this.loading = false;
+        this.errorMessage = error.error.message;
+      });
+  }
+
+  publishedPageLoad(event): void {
+    this.publishedLoading = true;
+    this.pollService.getUserPublishedPages(event.pageIndex).subscribe(
+      data => {
+        this.drafts = [];
+        this.drafts = data.data;
+        this.publishedLoading = false;
+      },
+      error => {
+        this.errorMessage = error.error.message;
+      });
+  }
+
+  draftsPageLoad(event): void {
+    this.draftsLoading = true;
+    this.pollService.getUserDraftsPages(event.pageIndex).subscribe(
+      data => {
+        this.drafts = [];
+        this.drafts = data.data;
+        this.draftsLoading = false;
+      },
+      error => {
+        this.errorMessage = error.error.message;
+    });
   }
 }

@@ -1,0 +1,25 @@
+.question{
+  position: relative;
+}
+
+.question, .question-options, .question-options-group{
+  display: flex;
+  flex-direction: column;
+}
+
+.question-header, .question-body{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.question-header{
+  margin: 0.5rem 0 0 0.5rem;
+}
+
+.question-position{
+  position: absolute;
+  margin:0;
+  top: 0;
+  left: 0;
+}

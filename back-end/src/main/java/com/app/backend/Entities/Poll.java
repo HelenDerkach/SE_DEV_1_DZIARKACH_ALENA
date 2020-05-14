@@ -10,10 +10,6 @@ import java.util.List;
 @Entity
 @Table (name = "polls")
 @Data
-//@Builder
-//@JsonIdentityInfo(
-//        generator = ObjectIdGenerators.PropertyGenerator.class,
-//        property = "id")
 public class Poll {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

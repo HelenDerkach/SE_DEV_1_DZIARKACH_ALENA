@@ -1,0 +1,35 @@
+<div class="question">
+  <div class="question-header">
+    <h3 class="question-position">{{question.position}}</h3>
+    <h4>{{question.text}}</h4>
+  </div>
+  <div class="question-body">
+    <div class="question-options" [ngSwitch]="question.type.id">
+      <div *ngSwitchCase="'1'">
+        <mat-form-field [(ngModel)]="response.answer">
+          <mat-label>Your answer</mat-label>
+          <input matInput type="text" placeholder="Your answer" [value]="">
+        </mat-form-field>
+      </div>
+      <div *ngSwitchCase="'2'">
+        <div>
+          <mat-radio-group [(ngModel)]="response.answer" class="question-options-group">
+            <mat-radio-button class="question-option" *ngFor="let option of question.questionChoices; let i=index" [value]="option.text">
+              <div class="option-wrapper">
+                {{option.text}}
+              </div>
+            </mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </div>
+      <div *ngSwitchCase="'3'">
+        <div class="question-options-group">
+          <mat-checkbox class="question-option" *ngFor="let option of question.questionChoices; let i=index" [value]="option.text">
+            <div class="option-wrapper">
+              {{option.text}}
+            </div>
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+</div>

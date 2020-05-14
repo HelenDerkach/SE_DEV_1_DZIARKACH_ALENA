@@ -104,14 +104,13 @@
 }
 
 .theme{
-  padding: 1rem 1rem 2rem 0rem;
+  padding: 4rem 2rem 2.1rem;
   border-radius: 10px;
   box-sizing: content-box;
   margin: 1rem 0.5rem;
   border: 1px solid #3c5096;
   position: relative;
   background: #FBFAF9;
-  min-height: 20rem;
 }
 
 .theme h1{

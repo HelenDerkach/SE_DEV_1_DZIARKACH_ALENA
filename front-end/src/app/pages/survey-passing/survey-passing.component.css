@@ -1,0 +1,62 @@
+.survey-wrapper{
+  width: 60rem;
+
+  margin: auto;
+  margin-bottom: 5%;
+  padding: 2rem 4rem;
+
+  background: #FBFAF9;
+  box-shadow: 4px 8px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+}
+
+.form-name{
+  font-size: 3rem;
+  font-weight: 400;
+  margin: 1rem 0;
+}
+
+.form-description{
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.divider{
+  color: #3c5096;
+}
+
+.question-wrapper{
+  padding: 1rem 3rem 2rem 2rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #fbfaf9;
+  position: relative;
+  background: #FBFAF9;
+}
+
+.theme{
+  padding: 4rem 2rem 2.1rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #3c5096;
+  position: relative;
+  background: #FBFAF9;
+}
+
+.theme h1{
+  position: absolute;
+  top: 0;
+  font-size: 18px;
+  line-height: 1;
+  margin: -9px 0 0;
+  background: #FBFAF9;
+  padding: 0 3px;
+}
+
+.buttons-wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

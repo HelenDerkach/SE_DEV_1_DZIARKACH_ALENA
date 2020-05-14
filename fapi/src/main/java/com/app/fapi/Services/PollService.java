@@ -1,7 +1,7 @@
 package com.app.fapi.Services;
 
 import com.app.fapi.Entities.Poll;
-import com.app.fapi.Entities.User;
+import com.app.fapi.Entities.PagingResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,18 @@ public class PollService {
         }
     }
 
-    public Poll[] getPublishedPagesByUserId(Integer id, Integer pageNumber){
+    public PagingResponse getPublishedPagesByUserId(Integer id, Integer pageNumber){
         try{
-            return this.restTemplate.getForObject(backendUrl + "/polls/published/userId={id}/pageNumber={pageNumber}", Poll[].class, id, pageNumber);
+            return this.restTemplate.getForObject(backendUrl + "/polls/published/userId={id}/pageNumber={pageNumber}", PagingResponse.class, id, pageNumber);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
+    public PagingResponse getDraftsPagesByUserId(Integer id, Integer pageNumber){
+        try{
+            return this.restTemplate.getForObject(backendUrl + "/polls/drafts/userId={id}/pageNumber={pageNumber}", PagingResponse.class, id, pageNumber);
         }
         catch(Exception ex){
             throw ex;
@@ -48,6 +57,15 @@ public class PollService {
     public Poll getPollById(Integer id){
         try{
             return this.restTemplate.getForObject(backendUrl + "/polls/{id}", Poll.class, id);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
+    public Poll getPollByUrl(String url){
+        try{
+            return this.restTemplate.getForObject(backendUrl + "/polls?url={url}", Poll.class, url);
         }
         catch(Exception ex){
             throw ex;

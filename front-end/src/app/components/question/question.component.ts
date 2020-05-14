@@ -20,6 +20,10 @@ export class QuestionComponent implements OnInit  {
   questionTypes: QuestionType[];
   @Input()
   _isEditable: boolean;
+  @Input()
+  _isThemed: boolean;
+  @Input()
+  _isThemeFirst: boolean;
 
   @Output()
   valid = new EventEmitter<boolean>();
@@ -54,6 +58,10 @@ export class QuestionComponent implements OnInit  {
 
   deleteQuestion(): void {
     this.delete.emit(this._question.position);
+  }
+
+  deleteTheme(): void {
+    // this.delete.emit(this._question.position);
   }
 
   addOption() {

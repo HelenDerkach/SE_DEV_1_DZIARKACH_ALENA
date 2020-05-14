@@ -1,6 +1,6 @@
 <div class="question" [formGroup]="_questionForm">
 	<div class="question-header">
-    <h3 class="question-position">{{_question.position}}.</h3>
+    <h3 class="question-position" *ngIf="!_isThemed">{{_question.position}}.</h3>
 		<mat-form-field class="question-text">
 			<mat-label>Question text</mat-label>
 			<input class="form-name form-input" matInput formControlName="text" type="text" placeholder="What do you want to ask?" value="" [readonly]="!_isEditable">
@@ -12,9 +12,18 @@
 			    <mat-option *ngFor="let type of questionTypes" value="{{type.id}}">{{type.name}}</mat-option>
 			  </mat-select>
 		</mat-form-field>
-    <button mat-icon-button class="delete-question-button" (click)="deleteQuestion()">
-      <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
-    </button>
+    <div *ngIf="!_isThemed">
+      <button mat-icon-button class="delete-question-button"
+              (click)="deleteQuestion()">
+        <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
+      </button>
+    </div>
+    <div *ngIf="_isThemed && _isThemeFirst">
+      <button mat-icon-button class="delete-question-button"
+              (click)="deleteTheme()">
+        <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
+      </button>
+    </div>
 	</div>
   <div class="question-body">
     <div class="question-options" [ngSwitch]="_questionForm.controls['type'].value">
@@ -61,5 +70,4 @@
       </mat-slide-toggle>
     </div>
   </div>
-
 </div>

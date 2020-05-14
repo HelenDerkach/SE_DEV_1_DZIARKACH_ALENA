@@ -1,23 +1,31 @@
-<div class="home-wrapper">
-  <app-loader [loading]="loading"></app-loader>
+<app-loader [loading]="loading"></app-loader>
+<div class="home-wrapper" *ngIf="!loading">
 	<app-home [_user] = 'currentUser'></app-home>
 	<div class="home-page__form-wrapper">
 		<div *ngFor="let form of publishedForms">
 		    <app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
 		</div>
     <p *ngIf="publishedForms.length == 0">You have no published forms!</p>
-    <mat-paginator [length]="drafts.length"
-                   [pageSize]="3">
-    </mat-paginator>
+
+    <div class="list-bottom-wrapper">
+      <mat-paginator [length]="publishedForms.length" [pageSize]="publishedForms.length < 3 ? publishedForms.length : 3"
+                     (page)="publishedPageLoad($event)">
+      </mat-paginator>
+      <mat-spinner diameter="25" *ngIf="publishedLoading"></mat-spinner>
+    </div>
 
 		<h2>Drafts:</h2>
     <div *ngFor="let form of drafts">
       <app-form [_form]="form" (formDetails)="editForm($event)"></app-form>
     </div>
     <p *ngIf="drafts.length == 0">You have no drafts!</p>
-    <mat-paginator [length]="drafts.length" [pageIndex]="pageNumber"
-                   [pageSize]="3">
-    </mat-paginator>
+    <div class="list-bottom-wrapper">
+      <mat-paginator [length]="draftsPages" [pageSize]="drafts.length < 3 ? drafts.length : 3"
+                     (page)="draftsPageLoad($event)">
+      </mat-paginator>
+      <mat-spinner diameter="25" *ngIf="draftsLoading"></mat-spinner>
+    </div>
+
 	</div>
   <button mat-fab color="accent" class="add-form-button" (click)="createForm()">
     <fa-icon [icon]="plusIcon" size="lg"></fa-icon>

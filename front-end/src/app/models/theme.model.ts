@@ -3,7 +3,7 @@ import {Question} from './question.model';
 export class Theme {
 	id: number;
 	title: string;
-	isPrivate: boolean;
+  is_private: boolean;
 	userId: number;
 	questions: Question[];
 }
