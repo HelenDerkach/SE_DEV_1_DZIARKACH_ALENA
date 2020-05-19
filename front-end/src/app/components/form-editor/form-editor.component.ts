@@ -45,14 +45,12 @@ export class FormEditorComponent implements OnInit {
     } else {
       this.loadPoll();
     }
-    this.questionsNumber = this.newForm.questions.length;
   }
 
   newEmptyPoll(): void {
     this.loading = false;
     this.newForm = new Poll();
     this.newForm.questions = [];
-    this.newForm.themes = [];
     this._formData = new FormGroup({
       formName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       description: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -68,7 +66,9 @@ export class FormEditorComponent implements OnInit {
     this.pollService.getPollById(this.activateRoute.snapshot.params.id).subscribe(
       data => {
         this.newForm = data;
-        console.log(new Date(this.newForm.starts_at));
+
+        this.questionsNumber = this.newForm.questions.length;
+        console.log(data);
         this._formData = new FormGroup({
           formName: new FormControl(this.newForm?.title ? this.newForm.title : '', [Validators.required, Validators.minLength(2)]),
           description: new FormControl(this.newForm?.description ? this.newForm.description : '', [Validators.required, Validators.minLength(2)]),
@@ -93,8 +93,8 @@ export class FormEditorComponent implements OnInit {
   }
 
   newQuestion(): void {
-    this.questionsNumber++;
-    this.newForm.questions.push(new Question(this.questionsNumber));
+    // this.questionsNumber++;
+    this.newForm.questions.push(new Question(this.newForm.questions.length+1));
   }
 
   onQuestionValid($event) {
@@ -104,14 +104,15 @@ export class FormEditorComponent implements OnInit {
   onQuestionDelete($event): void {
     if ($event !== -1) {
       this.newForm.questions.splice($event - 1, 1);
-      this.questionsNumber--;
+      // this.questionsNumber--;
     }
     this.updatePositions();
   }
 
   newTheme(): void {
+    this.newForm.themes = [];
     let newTheme = new Theme();
-    newTheme.id = this.newForm.questions.length;
+    newTheme.id = Math.floor(Math.random() * 10);
     newTheme.questions = [];
     this.questionsNumber++;
     let newQuestion = new Question(this.questionsNumber);
@@ -120,7 +121,6 @@ export class FormEditorComponent implements OnInit {
     this.themesArray.push(this.getThemeForm(newTheme));
     this.newForm.questions.push(newQuestion);
     this.newForm.themes.push(newTheme);
-
   }
 
   addThemeArray(): FormArray {
@@ -162,12 +162,30 @@ export class FormEditorComponent implements OnInit {
     }
     this.newForm.user = this.userService.currentUserValue;
     this.newForm.is_published = isPublished;
-    console.log(this.themesArray.value);
-    for (let i = 0; i < this.themesArray.length; i++) {
-      this.newForm.themes[i].title = this.themesArray.value[i].name;
-      this.newForm.themes[i].is_private = true;
+    if (this.newForm?.themes) {
+      for (let i = 0; i < this.themesArray.length; i++) {
+        this.newForm.themes[i].title = this.themesArray.value[i].name;
+        this.newForm.themes[i].is_private = true;
+      }
+
+      for (let i = 0; i < this.newForm.themes.length; i++) {
+        this.newForm.themes[i].questions.forEach((themeQuestion) => {
+          const pos = this.newForm.questions.find((formQuestion) => formQuestion.themeId === themeQuestion.themeId).position;
+          if (pos) {
+            this.newForm.questions.splice(pos - 1, 1);
+          }
+        });
+      }
     }
+
+
     console.log(this.newForm);
+    this.questionService.postQuestions(this.newForm.questions).subscribe(
+      data => {
+        console.log(data);
+      }, error => {
+        console.log(error);
+      });
     this.pollService.savePoll(this.newForm).subscribe(
       data => {
         if (data.is_published) {
@@ -176,7 +194,7 @@ export class FormEditorComponent implements OnInit {
         this.router.navigate(['home']);
       },
       error => {
-        this.errorMessage = error.error.message;
+        console.log(error);
       });
   }
 

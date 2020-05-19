@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name="poll_responses")
@@ -13,10 +14,15 @@ public class PollResponse {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
 
-    private String started_at;
-    private String completed_at;
+    @Column (name = "started_at")
+    private String startedAt;
+    @Column (name = "completed_at")
+    private String completedAt;
 
-    @ManyToOne
-    @JoinColumn(name="poll_id")
-    private Poll poll;
+    @Column (name = "poll_id")
+    private Integer pollId;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "poll_response_id")
+    private List<Response> responses;
 }

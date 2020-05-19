@@ -7,6 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "themes")
@@ -18,11 +19,13 @@ public class Theme {
 
     private String title;
 
-    private boolean is_private;
+    @Column (name = "is_private")
+    private boolean isPrivate;
 
-    @ManyToOne
-    @JoinColumn (name="poll_id")
-    @JsonBackReference (value="theme-polls")
-    @ToString.Exclude
-    private Poll poll;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "theme_id")
+    private List<Question> questions;
+
+//    @Column (name = "poll_id")
+//    private Integer pollId;
 }

@@ -18,4 +18,11 @@ export class QuestionService {
         return types;
       }));
   }
+
+  public postQuestions(questions: Question[]): Observable<Question[]> {
+    return this.http.post<Question[]>(`/api/questions/new`, questions)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
 }

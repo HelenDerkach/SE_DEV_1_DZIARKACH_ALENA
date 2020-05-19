@@ -19,6 +19,6 @@ public interface PollRepository extends PagingAndSortingRepository<Poll,Integer>
 
     Optional<Poll> findPollByUrl(String url);
 
-    @Query("select p from Poll p where p.user = :user and p.is_published = :is_published")
-    Page<Poll> findAllByUserAndIs_published(@Param("user") User user, @Param("is_published") Boolean is_published, Pageable pageable);
+//    @Query("select p from Poll p where p.userId = :userId and p.isPublished = :isPublished")
+    Page<Poll> findAllByUserIdAndIsPublished(Integer userId, Boolean isPublished, Pageable pageable);
 }

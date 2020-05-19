@@ -10,13 +10,11 @@ import javax.persistence.*;
 @Data
 public class QuestionChoice {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String text;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    @JsonBackReference
-    private Question question;
+    @Column (name = "question_id")
+    private Integer questionId;
 }

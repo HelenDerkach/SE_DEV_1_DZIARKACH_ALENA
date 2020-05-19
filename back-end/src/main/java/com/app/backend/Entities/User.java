@@ -30,8 +30,6 @@ public class User {
   @JoinColumn(name="role")
   private Role role;
 
-  @ToString.Exclude
-  @OneToMany(mappedBy = "user")
-  @JsonManagedReference (value="user-polls")
+  @OneToMany
   private List<Poll> polls;
 }

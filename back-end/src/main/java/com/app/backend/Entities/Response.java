@@ -15,11 +15,9 @@ public class Response {
 
     private String answer;
 
-    @ManyToOne
-    @JoinColumn(name="poll_response_id")
-    private PollResponse poll_response;
+    @Column (name = "poll_response_id")
+    private Integer pollResponseId;
 
-    @ManyToOne
-    @JoinColumn(name="question_id")
-    private Question question;
+    @Column (name = "question_id")
+    private Integer questionId;
 }

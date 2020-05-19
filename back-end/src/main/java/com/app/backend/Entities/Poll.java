@@ -12,28 +12,29 @@ import java.util.List;
 @Data
 public class Poll {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String title;
     private String description;
     private String url;
 
-    private String starts_at;
-    private String ends_at;
+    @Column (name = "starts_at")
+    private String startsAt;
+    @Column (name = "ends_at")
+    private String endsAt;
 
-    private Boolean is_published;
+    @Column (name = "is_published")
+    private Boolean isPublished;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    @JsonBackReference (value="user-polls")
-    private User user;
+    @Column (name = "user_id")
+    private Integer userId;
 
-    @OneToMany(mappedBy = "poll")
-    @JsonManagedReference (value="question-polls")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "poll_id")
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "poll")
-    @JsonManagedReference (value="theme-polls")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "poll_id")
     private List<Theme> themes;
 }

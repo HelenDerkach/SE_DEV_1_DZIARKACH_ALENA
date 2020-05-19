@@ -14,6 +14,7 @@ public class Question {
 
     private QuestionType type;
 
+    private Poll poll;
     private Theme theme;
     private List<QuestionChoice> questionChoices;
 }

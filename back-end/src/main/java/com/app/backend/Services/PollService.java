@@ -1,8 +1,6 @@
 package com.app.backend.Services;
 
-import com.app.backend.Entities.PagingResponse;
-import com.app.backend.Entities.Poll;
-import com.app.backend.Entities.User;
+import com.app.backend.Entities.*;
 import com.app.backend.Repositories.PollRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +15,12 @@ import java.util.Optional;
 public class PollService {
     private PollRepository pollRepository;
     private UserService userService;
+    private QuestionService questionService;
 
     @Autowired
-    public PollService(PollRepository pollRepository, UserService userService) {
+    public PollService(PollRepository pollRepository, UserService userService, QuestionService questionService) {
         this.pollRepository = pollRepository;
-        this.userService = userService;
+        this.questionService = questionService;
     }
 
     public Iterable<Poll> getAllPolls(){
@@ -41,20 +40,32 @@ public class PollService {
     }
 
     public Poll save(Poll poll){
-        return pollRepository.save(poll);
+//        if(!poll.getQuestions().isEmpty()){
+//            poll.getQuestions().forEach(q -> {
+//                q.setPollId(poll.getId());
+//                q.getQuestionChoices().forEach(qc -> qc.setQuestionId(q.getId()));
+//            });
+//        }
+//
+//        if(!poll.getThemes().isEmpty()){
+//            poll.getThemes().forEach(t -> t.setPollId(poll.getId()));
+//        }
+//        questionService.save(poll.getQuestions());
+        Poll savedpoll = pollRepository.save(poll);
+        return savedpoll;
     }
 
     public PagingResponse findPublishedPagesByUserId(Integer id, Integer pageNumber){
         Pageable page = PageRequest.of(pageNumber, 3);
-        User user = userService.getUserById(id).orElseThrow(() -> new RuntimeException("No user with this id " + id));
-        Page<Poll> resultPage = pollRepository.findAllByUserAndIs_published(user, true, page);
+//        User user = userService.getUserById(id).orElseThrow(() -> new RuntimeException("No user with this id " + id));
+        Page<Poll> resultPage = pollRepository.findAllByUserIdAndIsPublished(id, true, page);
         return PagingResponse.builder().data(resultPage.getContent()).total(resultPage.getTotalElements()).build();
     }
 
     public PagingResponse findDraftsPagesByUserId(Integer id, Integer pageNumber){
         Pageable page = PageRequest.of(pageNumber, 3);
-        User user = userService.getUserById(id).orElseThrow(() -> new RuntimeException("No user with this id " + id));
-        Page<Poll> resultPage = pollRepository.findAllByUserAndIs_published(user, false, page);
+//        User user = userService.getUserById(id).orElseThrow(() -> new RuntimeException("No user with this id " + id));
+        Page<Poll> resultPage = pollRepository.findAllByUserIdAndIsPublished(id, false, page);
         return PagingResponse.builder().data(resultPage.getContent()).total(resultPage.getTotalElements()).build();
     }
 }

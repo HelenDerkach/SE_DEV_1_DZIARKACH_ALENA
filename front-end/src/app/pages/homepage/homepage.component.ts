@@ -78,8 +78,8 @@ export class HomepageComponent implements OnInit {
     this.publishedLoading = true;
     this.pollService.getUserPublishedPages(event.pageIndex).subscribe(
       data => {
-        this.drafts = [];
-        this.drafts = data.data;
+        this.publishedForms = [];
+        this.publishedForms = data.data;
         this.publishedLoading = false;
       },
       error => {

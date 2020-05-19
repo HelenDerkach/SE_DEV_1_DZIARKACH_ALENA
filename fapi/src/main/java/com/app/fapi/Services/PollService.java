@@ -2,10 +2,14 @@ package com.app.fapi.Services;
 
 import com.app.fapi.Entities.Poll;
 import com.app.fapi.Entities.PagingResponse;
+import com.app.fapi.Entities.Question;
+import com.app.fapi.Entities.Theme;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
 
 @Service
 public class PollService {
@@ -77,6 +81,8 @@ public class PollService {
             if(poll.getIs_published()){
                 poll.setUrl(java.util.UUID.randomUUID().toString());
             }
+
+
             return this.restTemplate.postForObject(backendUrl + "/polls/new", poll, Poll.class);
         }
         catch(Exception ex){

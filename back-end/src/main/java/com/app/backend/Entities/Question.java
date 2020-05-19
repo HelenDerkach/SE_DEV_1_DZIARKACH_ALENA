@@ -9,36 +9,32 @@ import java.util.List;
 
 @Entity
 @Table (name="questions")
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id")
 @Data
 public class Question {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String text;
-    private Boolean is_required;
+
+    @Column (name = "is_required")
+    private Boolean isRequired;
+
     private Integer position;
 
-    @ManyToOne()
-    @JoinColumn(name = "type_id")
-    private QuestionType type;
+    @Column (name = "type_id")
+    private Integer typeId;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "poll_id")
-    @JsonBackReference (value="question-polls")
-    @ToString.Exclude
-    private Poll poll;
+//    @Column (name = "poll_id")
+//    private Integer pollId;
+//
+//    @Column (name = "theme_id")
+//    private Integer themeId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "theme_id")
-    @JsonBackReference
-    @ToString.Exclude
-    private Theme theme;
-
-    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "question_id")
     private List<QuestionChoice> questionChoices;
 }
