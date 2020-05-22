@@ -2,12 +2,15 @@ package com.app.fapi.Entities;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PollResponse {
     private Integer id;
 
-    private String started_at;
-    private String completed_at;
+    private String startedAt;
+    private String completedAt;
 
-    private Poll poll;
+    private Integer pollId;
+    private List<Response> responses;
 }

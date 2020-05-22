@@ -13,12 +13,13 @@ public class Poll {
     private String description;
     private String url;
 
-    private String starts_at;
-    private String ends_at;
+    private String startsAt;
+    private String endsAt;
 
-    private Boolean is_published;
+    private Boolean isPublished;
 
-    private User user;
+    private Integer userId;
+
     private List<Question> questions;
     private List<Theme> themes;
 }

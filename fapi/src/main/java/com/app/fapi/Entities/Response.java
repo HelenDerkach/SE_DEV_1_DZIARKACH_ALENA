@@ -7,6 +7,6 @@ public class Response {
     private Integer id;
     private String answer;
 
-    private PollResponse poll_response;
-    private Question question;
+    private Integer pollResponseId;
+    private Integer questionId;
 }

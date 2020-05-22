@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Theme {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     private String title;
@@ -22,10 +22,10 @@ public class Theme {
     @Column (name = "is_private")
     private boolean isPrivate;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "theme_id")
     private List<Question> questions;
 
-//    @Column (name = "poll_id")
-//    private Integer pollId;
+    @Column (name = "poll_id")
+    private Integer pollId;
 }

@@ -3,7 +3,7 @@
 	<app-home [_user] = 'currentUser'></app-home>
 	<div class="home-page__form-wrapper">
 		<div *ngFor="let form of publishedForms">
-		    <app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
+		    <app-card [data]="form" (details)="showFormDetails($event)"></app-card>
 		</div>
     <p *ngIf="publishedForms.length == 0">You have no published forms!</p>
 
@@ -16,7 +16,7 @@
 
 		<h2>Drafts:</h2>
     <div *ngFor="let form of drafts">
-      <app-form [_form]="form" (formDetails)="editForm($event)"></app-form>
+      <app-card [data]="form" (details)="editForm($event)"></app-card>
     </div>
     <p *ngIf="drafts.length == 0">You have no drafts!</p>
     <div class="list-bottom-wrapper">

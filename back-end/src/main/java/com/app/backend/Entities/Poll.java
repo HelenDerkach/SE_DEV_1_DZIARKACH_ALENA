@@ -30,11 +30,11 @@ public class Poll {
     @Column (name = "user_id")
     private Integer userId;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "poll_id")
-    private List<Question> questions;
-
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "poll_id")
     private List<Theme> themes;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "poll_id")
+    private List<Question> questions;
 }

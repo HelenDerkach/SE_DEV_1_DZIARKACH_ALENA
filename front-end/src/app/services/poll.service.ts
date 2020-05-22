@@ -35,6 +35,13 @@ export class PollService {
       }));
   }
 
+  getAllPublishedPages(pageNumber: number): Observable<pageResponse> {
+    return this.http.get<pageResponse>(`/api/polls/published/pageNumber=${pageNumber}`)
+      .pipe(map(response => {
+        return response;
+      }));
+  }
+
   getUserDraftsPages(pageNumber: number): Observable<pageResponse> {
     return this.http.get<pageResponse>(`/api/polls/drafts/userId=${this.currentUser.id}/pageNumber=${pageNumber}`)
       .pipe(map(response => {

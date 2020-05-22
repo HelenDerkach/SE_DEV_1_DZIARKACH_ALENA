@@ -1,43 +1,43 @@
 <div class="form-data-wrapper">
 	<div class="statistics-wrapper">
-		<p><b>{{responses}}</b> people completed your form</p>
+		<p><b>{{responses}}</b> times people completed your form</p>
 		<p>Average time: <b>{{averageTime}}</b> minutes</p>
 	</div>
 	<div class="charts-wrapper">
-		<div class="question-wrapper" *ngFor="let question of questions">
-			<div class="question-info">
-				<h3>{{question.text}}</h3>
-				<p>15 answers</p>
-			</div>
-			<div class="answers-wrapper" [ngSwitch]="question.type">
-				<div class="chart" *ngSwitchCase="'radio'">
-					<canvas baseChart
-						[data]="pieChartData"
-						[labels]="question.options"
-						[chartType]="'pie'"
-						[options]="pieChartOptions"
-						[colors]="pieChartColors"
-						[legend]="'true'">
-					</canvas>
-		    	</div>
-			</div>
-			<div class="answers-wrapper" [ngSwitch]="question.type">
-				<div class="chart" *ngSwitchCase="'checkbox'">
-					<canvas baseChart
-						[data]="pieChartData"
-						[labels]="question.options"
-						[chartType]="'bar'"
-						[options]="pieChartOptions"
-						[colors]="pieChartColors"
-						[legend]="'true'">
-					</canvas>
-		    	</div>
-			</div>
-			<div class="answers-wrapper" [ngSwitch]="question.type">
-				<div class="chart" *ngSwitchCase="'text'">
-					{{question.options.value}}
-		    	</div>
-			</div>			
-		</div>
+    <mat-expansion-panel  *ngFor="let question of questions; let i = index">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{question.text}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="answers-wrapper" [ngSwitch]="question.typeId" *ngIf="chartDataLoad">
+        <div class="chart" *ngSwitchCase="'2'">
+          <canvas baseChart
+                  [data]="questionsData[i].pieChartData"
+                  [labels]="questionsData[i].pieChartLabels"
+      						[chartType]="'pie'"
+      						[options]="pieChartOptions"
+      						[colors]="pieChartColors"
+      						[legend]="'true'">
+          </canvas>
+        </div>
+        <div class="chart" *ngSwitchCase="'3'">
+          <canvas baseChart
+      						[data]="questionsData[i].pieChartData"
+                  [labels]="questionsData[i].pieChartLabels"
+      						[chartType]="'bar'"
+      						[options]="pieChartOptions"
+      						[colors]="pieChartColors"
+      						[legend]="'true'"></canvas>
+        </div>
+        <div class="chart" *ngSwitchCase="'1'">
+          <h4 *ngFor="let answer of questionsData[i].textData">{{answer}}</h4>
+          <mat-paginator [length]="questionsData[i].textDataPages"
+                         [pageSize]="questionsData[i].textData.length < 6 ? questionsData[i].textData.length : 6"
+                         (page)="questionsDataLoadPage(questionsData[i], $event)">
+          </mat-paginator>
+        </div>
+      </div>
+    </mat-expansion-panel>
 	</div>
 </div>

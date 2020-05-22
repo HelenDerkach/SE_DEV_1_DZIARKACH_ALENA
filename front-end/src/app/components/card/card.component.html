@@ -1,0 +1,6 @@
+<div class="user-form-wrapper" [class.selected]="selected">
+	<h2>{{data.title}}</h2>
+	<button id="{{data.id}}" mat-fab color="accent" class="user-form-info" (click)="showDetails()">
+		<fa-icon [icon]="arrowIcon" size="lg"></fa-icon>
+	</button>
+</div>

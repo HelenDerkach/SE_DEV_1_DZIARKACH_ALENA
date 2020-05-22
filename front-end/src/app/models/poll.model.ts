@@ -4,13 +4,13 @@ import {User} from './user.model';
 
 export class Poll {
 	id: number;
-	starts_at: string;
-  ends_at: string;
+	startsAt: string;
+  endsAt: string;
 	title: string;
   url: string;
-	user: User;
+	userId: number;
 	description: string;
-	is_published: boolean;
+	isPublished: boolean;
 	questions: Question[];
   themes: Theme[];
 }

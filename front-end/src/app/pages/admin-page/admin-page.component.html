@@ -1,7 +1,33 @@
-<div class="admin-wrapper">
-	<app-home [_user] = 'currentUser'></app-home>
-	<div class="forms-wrapper" *ngFor="let form of forms">
-		<app-form [_form]="form" (formDetails)="showFormDetails($event)"></app-form>
-	</div>
+<app-loader [loading]="loading"></app-loader>
+<div class="admin-wrapper" *ngIf="!loading">
+  <mat-tab-group>
+    <mat-tab label="Forms">
+      <div class="forms-wrapper">
+        <app-card [data]="form" (details)="showFormDetails($event)" *ngFor="let form of publishedForms"></app-card>
+        <div class="list-bottom-wrapper">
+          <mat-paginator [length]="publishedPages" [pageSize]="publishedForms.length < 3 ? publishedForms.length : 3"
+                         (page)="publishedPageLoad($event)">
+          </mat-paginator>
+          <mat-spinner diameter="25" *ngIf="publishedLoading"></mat-spinner>
+        </div>
+      </div>
+      <p *ngIf="publishedForms.length == 0">There are no published forms.</p>
+    </mat-tab>
+    <mat-tab label="Themes">
+      <div class="themes-wrapper" *ngFor="let theme of themes">
+        <app-card [data]="theme" (details)="showThemeDetails($event)"></app-card>
+      </div>
+      <div class="list-bottom-wrapper">
+        <mat-paginator [length]="themesPages" [pageSize]="themes.length < 3 ? themes.length : 3"
+                       (page)="themesPageLoad($event)">
+        </mat-paginator>
+        <mat-spinner diameter="25" *ngIf="themesLoading"></mat-spinner>
+      </div>
+      <p *ngIf="themes.length == 0">There are no public themes.</p>
+      <button mat-fab color="accent" class="add-theme-button" (click)="createTheme()">
+        <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+      </button>
+    </mat-tab>
+  </mat-tab-group>
 </div>
 <app-menu></app-menu>

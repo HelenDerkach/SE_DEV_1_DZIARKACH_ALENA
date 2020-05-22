@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Create new public theme</h2>
+<mat-dialog-content>
+  <div class="theme">
+    <h1>
+      <mat-form-field>
+        <input class="theme-name" matInput [(ngModel)]="this.data.theme.title" type="text" placeholder="Your theme name">
+      </mat-form-field>
+    </h1>
+    <div class="theme-questions-wrapper"
+         *ngFor="let themeQuestion of this.data.theme.questions">
+      <app-question
+          [_question]="themeQuestion"
+          [_isEditable]="true"
+          [_isThemed]="true"
+          [_isThemeFirst]="true"
+          [questionTypes]="this.questionTypes"
+          (valid)="onQuestionValid($event)"
+          (delete)="onQuestionDelete($event)"></app-question>
+    </div>
+    <button mat-icon-button color="primary" title="Add question" class="add-theme-question-button" (click)="newThemeQuestion()">
+      <fa-icon [icon]="plusIcon"></fa-icon>
+    </button>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="data.theme" [disabled]="!questionsValid">Add</button>
+</mat-dialog-actions>

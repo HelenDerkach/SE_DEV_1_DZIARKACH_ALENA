@@ -1,8 +1,7 @@
 package com.app.backend.Controllers;
 
-import com.app.backend.Entities.Poll;
+import com.app.backend.Entities.PagingResponse;
 import com.app.backend.Entities.Theme;
-import com.app.backend.Repositories.ThemeRepository;
 import com.app.backend.Services.ThemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +20,11 @@ public class ThemeController {
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Theme> getAllThemes(){
         return themeService.findAll();
+    }
+
+    @GetMapping(path = "/public/pageNumber={pageNumber}")
+    public @ResponseBody PagingResponse findAllPublicThemesPages(@PathVariable String pageNumber) {
+        return themeService.findAllPublicThemesPages(Integer.parseInt(pageNumber));
     }
 
     @PostMapping(path="/new")

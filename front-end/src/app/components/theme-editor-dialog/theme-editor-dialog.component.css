@@ -1,0 +1,19 @@
+.theme{
+  padding: 4rem 2rem 2.1rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #3c5096;
+  position: relative;
+  background: #FFF;
+}
+
+.theme h1{
+  position: absolute;
+  top: 0;
+  font-size: 18px;
+  line-height: 1;
+  margin: -9px 0 0;
+  background: #FFF;
+  padding: 0 3px;
+}

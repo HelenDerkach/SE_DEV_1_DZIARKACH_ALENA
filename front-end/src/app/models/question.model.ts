@@ -4,9 +4,9 @@ import {QuestionType} from './question-type.model';
 export class Question {
   id: number;
 	text: string;
-	type: QuestionType;
+	typeId: number;
 	themeId: number;
-	is_required: boolean;
+	isRequired: boolean;
 	position: number;
 	questionChoices: QuestionChoice[];
   constructor(position: number) {

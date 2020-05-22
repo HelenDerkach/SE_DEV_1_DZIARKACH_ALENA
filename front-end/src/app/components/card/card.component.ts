@@ -4,18 +4,20 @@ import { Poll } from '../../models/poll.model';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: 'app-form',
-  templateUrl: './form.component.html',
-  styleUrls: ['./form.component.css']
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrls: ['./card.component.css']
 })
-export class FormComponent implements OnInit {
+export class CardComponent implements OnInit {
 
-	arrowIcon = faAngleDoubleRight;
+  arrowIcon = faAngleDoubleRight;
 	@Input()
-	_form: Poll;
+	data: any;
+	@Input()
+  selected;
 
 	@Output()
-  	formDetails: EventEmitter<number> = new EventEmitter();
+  	details: EventEmitter<number> = new EventEmitter();
 
 
   constructor() { }
@@ -23,7 +25,7 @@ export class FormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  showFormDetails(): void{
-  	this.formDetails.next(this._form.id);
+  showDetails(): void {
+  	this.details.next(this.data.id);
   }
 }

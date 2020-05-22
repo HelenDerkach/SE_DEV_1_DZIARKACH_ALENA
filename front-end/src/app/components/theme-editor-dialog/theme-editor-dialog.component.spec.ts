@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormComponent } from './form.component';
+import { ThemeEditorDialogComponent } from './theme-editor-dialog.component';
 
-describe('FormComponent', () => {
-  let component: FormComponent;
-  let fixture: ComponentFixture<FormComponent>;
+describe('ThemeEditorDialogComponent', () => {
+  let component: ThemeEditorDialogComponent;
+  let fixture: ComponentFixture<ThemeEditorDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FormComponent ]
+      declarations: [ ThemeEditorDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FormComponent);
+    fixture = TestBed.createComponent(ThemeEditorDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

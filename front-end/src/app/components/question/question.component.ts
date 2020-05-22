@@ -42,8 +42,8 @@ export class QuestionComponent implements OnInit  {
     this.valid.emit(false);
     this._questionForm = new FormGroup({
       text: new FormControl(this._question?.text ? this._question.text : '', [Validators.required, Validators.minLength(5)]),
-      type: new FormControl(this._question?.type ? this._question.type.id : '', [Validators.required]),
-      required: new FormControl(this._question?.is_required ? this._question.is_required : false, [Validators.required]),
+      type: new FormControl(this._question?.typeId ? this._question.typeId : '', [Validators.required]),
+      required: new FormControl(this._question?.isRequired ? this._question.isRequired : false, [Validators.required]),
       choices: this.addOptionArray()
     });
     this.onChanges();
@@ -91,13 +91,18 @@ export class QuestionComponent implements OnInit  {
     }, { updateOn: 'blur' });
   }
 
+  getTypeName(id: number): string {
+    return this.questionTypes.find((type) => type.id == id).name;
+  }
+
   onFormValidation(): void {
     if ((this._questionForm.valid) || (!this._questionForm.controls.choices.valid && this._questionForm.value.type === 'text')) {
       this.valid.emit(true);
       this._question.text = this._questionForm.get('text').value;
-      this._question.type = this.questionTypes.find((type) => type.id == this._questionForm.get('type').value);
-      this._question.is_required = this._questionForm.get('required').value;
+      this._question.typeId = this._questionForm.get('type').value;
+      this._question.isRequired = this._questionForm.get('required').value;
 
+      this._question.questionChoices = [];
       this.optionsArray.value.forEach((value) => {
         this._question.questionChoices.push(new QuestionChoice(value.val));
       });

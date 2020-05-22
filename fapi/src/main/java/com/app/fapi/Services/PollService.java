@@ -40,6 +40,15 @@ public class PollService {
         }
     }
 
+    public PagingResponse getAllPublishedPages(Integer pageNumber){
+        try{
+            return this.restTemplate.getForObject(backendUrl + "/polls/published/pageNumber={pageNumber}", PagingResponse.class, pageNumber);
+        }
+        catch(Exception ex){
+            throw ex;
+        }
+    }
+
     public PagingResponse getDraftsPagesByUserId(Integer id, Integer pageNumber){
         try{
             return this.restTemplate.getForObject(backendUrl + "/polls/drafts/userId={id}/pageNumber={pageNumber}", PagingResponse.class, id, pageNumber);
@@ -78,11 +87,9 @@ public class PollService {
 
     public Poll save(Poll poll){
         try{
-            if(poll.getIs_published()){
+            if(poll.getIsPublished()){
                 poll.setUrl(java.util.UUID.randomUUID().toString());
             }
-
-
             return this.restTemplate.postForObject(backendUrl + "/polls/new", poll, Poll.class);
         }
         catch(Exception ex){

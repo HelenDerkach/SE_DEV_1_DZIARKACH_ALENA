@@ -30,6 +30,7 @@ public class User {
   @JoinColumn(name="role")
   private Role role;
 
-  @OneToMany
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_id")
   private List<Poll> polls;
 }

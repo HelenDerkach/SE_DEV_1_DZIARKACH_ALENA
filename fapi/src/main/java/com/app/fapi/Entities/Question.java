@@ -9,12 +9,13 @@ public class Question {
     private Integer id;
 
     private String text;
-    private Boolean is_required;
+    private Boolean isRequired;
     private Integer position;
 
-    private QuestionType type;
+    private Integer typeId;
 
-    private Poll poll;
-    private Theme theme;
+    private Integer pollId;
+    private Integer themeId;
+
     private List<QuestionChoice> questionChoices;
 }

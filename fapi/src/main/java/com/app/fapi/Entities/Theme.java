@@ -9,9 +9,7 @@ import java.util.List;
 public class Theme {
     private Integer id;
     private String title;
-    private boolean is_private;
+    private boolean isPrivate;
 
     private List<Question> questions;
-    @ToString.Exclude
-    private Poll poll;
 }

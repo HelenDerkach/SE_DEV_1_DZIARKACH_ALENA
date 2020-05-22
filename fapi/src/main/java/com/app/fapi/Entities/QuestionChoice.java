@@ -8,5 +8,5 @@ public class QuestionChoice {
 
     private String text;
 
-    private Question question;
+    private Integer questionId;
 }

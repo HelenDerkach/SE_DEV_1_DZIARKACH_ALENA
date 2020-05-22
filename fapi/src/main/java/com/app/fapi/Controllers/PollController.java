@@ -27,6 +27,11 @@ public class PollController {
         return pollService.getPublishedPagesByUserId(Integer.parseInt(id),Integer.parseInt(pageNumber));
     }
 
+    @GetMapping(path = "/published/pageNumber={pageNumber}")
+    public @ResponseBody PagingResponse getAllPublishedPages(@PathVariable(name="pageNumber") String pageNumber) {
+        return pollService.getAllPublishedPages(Integer.parseInt(pageNumber));
+    }
+
     @GetMapping(path = "/drafts/userId={id}/pageNumber={pageNumber}")
     public @ResponseBody PagingResponse getDraftsPagesByUserId(@PathVariable(name="id") String id, @PathVariable(name="pageNumber") String pageNumber) {
         return pollService.getDraftsPagesByUserId(Integer.parseInt(id),Integer.parseInt(pageNumber));

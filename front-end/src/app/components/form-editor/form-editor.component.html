@@ -1,6 +1,6 @@
 <app-loader [loading]="loading"></app-loader>
 <div *ngIf="!loading">
-  <div class="form-wrapper" [formGroup]="_formData">
+  <div class="form-wrapper" [formGroup]="formData">
     <button mat-stroked-button class="back" (click)="back()">
       BACK
     </button>
@@ -67,7 +67,7 @@
       <button mat-fab color="primary" title="Add question" class="action-button" (click)="newQuestion()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
-      <button mat-fab color="accent" title="Add theme" class="action-button" (click)="newTheme()">
+      <button mat-fab color="accent" title="Add theme" class="action-button" (click)="addTheme()">
         <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
       </button>
     </div>
@@ -76,24 +76,24 @@
         <mat-slide-toggle class="date-slider" formControlName="time_limited">
           Is time-limited
         </mat-slide-toggle>
-        <div class="datepicker-wrapper" *ngIf="_formData.value.time_limited">
+        <div class="datepicker-wrapper" *ngIf="formData.value.time_limited">
           <label>
             Date Time Range From:
             <input [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1"
-                   [formControl]="_formData.controls.startsAt"
+                   [formControl]="formData.controls.startsAt"
                    [selectMode]="'range'">
             <owl-date-time #dt1></owl-date-time>
           </label>
-          <div *ngIf="_formData.controls.startsAt.invalid && _formData.controls.startsAt.errors.owlDateTimeRange">
-            Date Time value must be before {{_formData.controls.startsAt | date: 'medium'}}
+          <div *ngIf="formData.controls.startsAt.invalid && formData.controls.startsAt.errors.owlDateTimeRange">
+            Date Time value must be before {{formData.controls.startsAt | date: 'medium'}}
           </div>
         </div>
       </div>
       <div class="buttons-wrapper">
-        <button mat-raised-button class="save-button" color="accent" (click)="onSubmit(false)" [disabled]="!_formData.valid">
+        <button mat-raised-button class="save-button" color="accent" (click)="onSubmit(false)" [disabled]="!formData.valid">
           Save to drafts
         </button>
-        <button mat-raised-button class="publish-button" color="primary" (click)="onSubmit(true)" [disabled]="!_formData.valid || !questionsValid">
+        <button mat-raised-button class="publish-button" color="primary" (click)="onSubmit(true)" [disabled]="!formData.valid || !questionsValid">
           Publish
         </button>
       </div>

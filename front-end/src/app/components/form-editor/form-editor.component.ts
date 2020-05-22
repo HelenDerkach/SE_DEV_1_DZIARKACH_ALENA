@@ -14,6 +14,8 @@ import {PollService} from '../../services/poll.service';
 import {QuestionType} from '../../models/question-type.model';
 import {UserService} from '../../services/user-service.service';
 import {QuestionChoice} from '../../models/question-choice.model';
+import {ThemeEditorDialogComponent} from '../theme-editor-dialog/theme-editor-dialog.component';
+import {ThemeSelectionDialogComponent} from '../theme-selection-dialog/theme-selection-dialog.component';
 
 @Component({
   selector: 'form-editor',
@@ -27,8 +29,8 @@ export class FormEditorComponent implements OnInit {
   questionsNumber: number;
   questionTypes: QuestionType[];
   themesArray: FormArray = new FormArray([]);
-  questionsValid: boolean;
-  _formData: FormGroup;
+  questionsValid = false;
+  formData: FormGroup;
   loading = true;
   errorMessage;
 
@@ -38,7 +40,6 @@ export class FormEditorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.questionsValid = false;
     this.loadQuestionTypes();
     if (this.activateRoute.snapshot.params.id === 'new') {
       this.newEmptyPoll();
@@ -51,7 +52,8 @@ export class FormEditorComponent implements OnInit {
     this.loading = false;
     this.newForm = new Poll();
     this.newForm.questions = [];
-    this._formData = new FormGroup({
+    this.newForm.themes = [];
+    this.formData = new FormGroup({
       formName: new FormControl('', [Validators.required, Validators.minLength(2)]),
       description: new FormControl('', [Validators.required, Validators.minLength(2)]),
       time_limited: new FormControl(false, ),
@@ -66,15 +68,14 @@ export class FormEditorComponent implements OnInit {
     this.pollService.getPollById(this.activateRoute.snapshot.params.id).subscribe(
       data => {
         this.newForm = data;
-
         this.questionsNumber = this.newForm.questions.length;
         console.log(data);
-        this._formData = new FormGroup({
+        this.formData = new FormGroup({
           formName: new FormControl(this.newForm?.title ? this.newForm.title : '', [Validators.required, Validators.minLength(2)]),
           description: new FormControl(this.newForm?.description ? this.newForm.description : '', [Validators.required, Validators.minLength(2)]),
-          time_limited: new FormControl(this.newForm?.starts_at || this.newForm?.ends_at ? true : false, ),
-          startsAt: new FormControl(this.newForm?.starts_at ? new Date(this.newForm.starts_at) : new Date(), [Validators.required]),
-          endsAt: new FormControl(this.newForm?.ends_at ? new Date(this.newForm.ends_at) : new Date(), [Validators.required]),
+          time_limited: new FormControl(this.newForm?.startsAt || this.newForm?.endsAt ? true : false, ),
+          startsAt: new FormControl(this.newForm?.startsAt ? new Date(this.newForm.startsAt) : new Date(), [Validators.required]),
+          endsAt: new FormControl(this.newForm?.endsAt ? new Date(this.newForm.endsAt) : new Date(), [Validators.required]),
           themes: this.addThemeArray(),
         });
         this.loading = false;
@@ -93,8 +94,7 @@ export class FormEditorComponent implements OnInit {
   }
 
   newQuestion(): void {
-    // this.questionsNumber++;
-    this.newForm.questions.push(new Question(this.newForm.questions.length+1));
+    this.newForm.questions.push(new Question(this.newForm.questions.length + 1));
   }
 
   onQuestionValid($event) {
@@ -104,23 +104,37 @@ export class FormEditorComponent implements OnInit {
   onQuestionDelete($event): void {
     if ($event !== -1) {
       this.newForm.questions.splice($event - 1, 1);
-      // this.questionsNumber--;
     }
     this.updatePositions();
   }
 
-  newTheme(): void {
-    this.newForm.themes = [];
-    let newTheme = new Theme();
+  newTheme(newTheme: Theme): void {
     newTheme.id = Math.floor(Math.random() * 10);
     newTheme.questions = [];
-    this.questionsNumber++;
-    let newQuestion = new Question(this.questionsNumber);
+    const newQuestion = new Question(this.newForm.questions.length + 1);
     newQuestion.themeId = newTheme.id;
     newTheme.questions.push(newQuestion);
     this.themesArray.push(this.getThemeForm(newTheme));
     this.newForm.questions.push(newQuestion);
     this.newForm.themes.push(newTheme);
+  }
+
+  addTheme(): void {
+    const dialogRef = this.dialog.open(ThemeSelectionDialogComponent, {
+      width: '800px'
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      console.log(data);
+      if (Object.keys(data).length === 0) {
+        this.newTheme(data);
+      } else {
+        this.newForm.themes.push(data);
+        this.themesArray.push(this.getThemeForm(data));
+      }
+    }, error => {
+      console.log(error);
+    });
   }
 
   addThemeArray(): FormArray {
@@ -133,6 +147,9 @@ export class FormEditorComponent implements OnInit {
   }
 
   getThemeForm(theme: Theme): FormGroup {
+    theme.questions[0].themeId = theme.id;
+    this.newForm.questions.splice(theme.questions[0].position - 1, 0, theme.questions[0]);
+    this.updatePositions();
     return new FormGroup({
       name: new FormControl(theme?.title ? theme.title : '', [Validators.required])
     });
@@ -154,41 +171,37 @@ export class FormEditorComponent implements OnInit {
   }
 
   onSubmit(isPublished: boolean): void {
-    this.newForm.title = this._formData.value.formName;
-    this.newForm.description = this._formData.value.description;
-    if (this._formData.value.time_limited) {
-      this.newForm.starts_at = this.transformDate(this._formData.value.startsAt[0]);
-      this.newForm.ends_at = this.transformDate(this._formData.value.startsAt[1]);
+    this.newForm.title = this.formData.value.formName;
+    this.newForm.description = this.formData.value.description;
+    if (this.formData.value.time_limited) {
+      this.newForm.startsAt = this.transformDate(this.formData.value.startsAt[0]);
+      this.newForm.endsAt = this.transformDate(this.formData.value.startsAt[1]);
     }
-    this.newForm.user = this.userService.currentUserValue;
-    this.newForm.is_published = isPublished;
+    this.newForm.userId = this.userService.currentUserValue.id;
+    this.newForm.isPublished = isPublished;
+
     if (this.newForm?.themes) {
       for (let i = 0; i < this.themesArray.length; i++) {
         this.newForm.themes[i].title = this.themesArray.value[i].name;
-        this.newForm.themes[i].is_private = true;
+        this.newForm.themes[i].isPrivate = true;
+        this.newForm.themes[i].id = null;
       }
 
       for (let i = 0; i < this.newForm.themes.length; i++) {
         this.newForm.themes[i].questions.forEach((themeQuestion) => {
-          const pos = this.newForm.questions.find((formQuestion) => formQuestion.themeId === themeQuestion.themeId).position;
-          if (pos) {
-            this.newForm.questions.splice(pos - 1, 1);
+          const qstn = this.newForm.questions.find((formQuestion) => formQuestion.themeId === themeQuestion.themeId);
+          if (qstn) {
+            this.newForm.questions.splice(qstn.position - 1, 1);
           }
+          themeQuestion.id = null;
+          themeQuestion.themeId = null;
         });
       }
     }
 
-
-    console.log(this.newForm);
-    this.questionService.postQuestions(this.newForm.questions).subscribe(
-      data => {
-        console.log(data);
-      }, error => {
-        console.log(error);
-      });
     this.pollService.savePoll(this.newForm).subscribe(
       data => {
-        if (data.is_published) {
+        if (data.isPublished) {
           alert(data.url);
         }
         this.router.navigate(['home']);

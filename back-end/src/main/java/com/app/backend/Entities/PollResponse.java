@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class PollResponse {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
     @Column (name = "started_at")
@@ -22,7 +22,7 @@ public class PollResponse {
     @Column (name = "poll_id")
     private Integer pollId;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "poll_response_id")
     private List<Response> responses;
 }

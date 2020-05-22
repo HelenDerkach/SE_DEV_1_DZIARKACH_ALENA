@@ -15,7 +15,6 @@ import { Poll } from '../../models/poll.model';
 export class HomepageComponent implements OnInit {
   plusIcon = faPlus;
   currentUser;
-  Forms;
   publishedForms;
   drafts;
   errorMessage;

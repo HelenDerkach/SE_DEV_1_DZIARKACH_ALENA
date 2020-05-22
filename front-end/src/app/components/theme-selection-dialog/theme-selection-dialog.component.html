@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Create new theme or add existing one</h2>
+<mat-dialog-content>
+  <div class="themes-wrapper" *ngFor="let theme of themes">
+    <app-card [data]="theme" (details)="addTheme($event)" [selected]="selectedTheme === theme"></app-card>
+  </div>
+  <div class="list-bottom-wrapper">
+    <mat-paginator [length]="themesPages" [pageSize]="themes.length < 3 ? themes.length : 3"
+                   (page)="themesPageLoad($event)">
+    </mat-paginator>
+    <mat-spinner diameter="25" *ngIf="loading"></mat-spinner>
+  </div>
+  <p *ngIf="themes.length == 0">There are no public themes.</p>
+  <button mat-fab color="accent" class="add-theme-button" (click)="addEmptyTheme()">
+    <fa-icon [icon]="plusIcon" size="lg"></fa-icon>
+  </button>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="selectedTheme" [disabled]="selectedTheme == null">Add</button>
+</mat-dialog-actions>

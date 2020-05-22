@@ -28,12 +28,6 @@ public class Question {
     @Column (name = "type_id")
     private Integer typeId;
 
-//    @Column (name = "poll_id")
-//    private Integer pollId;
-//
-//    @Column (name = "theme_id")
-//    private Integer themeId;
-
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "question_id")
     private List<QuestionChoice> questionChoices;

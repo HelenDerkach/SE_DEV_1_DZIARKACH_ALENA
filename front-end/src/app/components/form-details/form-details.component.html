@@ -1,7 +1,26 @@
 <div class="form-wrapper">
 	<div class="question">
-		<div class="questions-wrapper" *ngFor="let question of questions">
-			<app-question [_question]="question" [_isEditable]="!_currentForm.is_published"></app-question>
-		</div>
+    <div *ngFor="let question of currentForm.questions; let i = index" cdkDrag>
+      <div class="theme" *ngIf="question?.themeId || question.themeId==0; else elseBlock">
+        <h1>{{getTheme(question.themeId).title}}</h1>
+        <div class="theme-questions-wrapper"
+             *ngFor="let themeQuestion of getTheme(question.themeId).questions">
+            <app-question
+              [_question]="themeQuestion"
+              [_isEditable]="false"
+              [_isThemed]="true"
+              [_isThemeFirst]="false"></app-question>
+        </div>
+      </div>
+      <ng-template #elseBlock>
+        <div class="question-wrapper">
+          <div class="drag-handle" cdkDragHandle></div>
+          <app-question
+            [_question]="currentForm.questions[i]"
+            [_isEditable]="false">
+          </app-question>
+        </div>
+      </ng-template>
+    </div>
 	</div>
 </div>

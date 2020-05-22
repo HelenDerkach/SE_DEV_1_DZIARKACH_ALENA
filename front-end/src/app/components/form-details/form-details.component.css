@@ -6,3 +6,23 @@
 .question{
 	padding: 0.5rem 1rem;
 }
+
+.theme{
+  padding: 2rem 2rem 4rem;
+  border-radius: 10px;
+  box-sizing: content-box;
+  margin: 1rem 0.5rem;
+  border: 1px solid #3c5096;
+  position: relative;
+  background: #FBFAF9;
+}
+
+.theme h1{
+  position: absolute;
+  top: 0;
+  font-size: 18px;
+  line-height: 1;
+  margin: -9px 0 0;
+  background: #FBFAF9;
+  padding: 0 3px;
+}

@@ -25,12 +25,11 @@ import { NewFormComponent } from './pages/new-form/new-form.component';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { RegistrationComponent } from './components/registration/registration.component';
-import { FormComponent } from './components/form/form.component';
+import { CardComponent } from './components/card/card.component';
 import { FormEditorComponent } from './components/form-editor/form-editor.component';
 import { FormDetailsComponent } from './components/form-details/form-details.component';
 import { QuestionComponent } from './components/question/question.component';
 import { FormDetailsPageComponent } from './pages/form-details-page/form-details-page.component';
-import { TabsComponent } from './components/tabs/tabs.component';
 import { FormDataComponent } from './components/form-data/form-data.component';
 import { AdminPageComponent } from './pages/admin-page/admin-page.component';
 import { MenuComponent } from './components/menu/menu.component';
@@ -40,6 +39,8 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { LoaderComponent } from './components/loader/loader.component';
 import { SurveyPassingComponent } from './pages/survey-passing/survey-passing.component';
 import { SurveyQuestionComponent } from './components/survey-question/survey-question.component';
+import { ThemeEditorDialogComponent } from './components/theme-editor-dialog/theme-editor-dialog.component';
+import { ThemeSelectionDialogComponent } from './components/theme-selection-dialog/theme-selection-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,13 +51,12 @@ import { SurveyQuestionComponent } from './components/survey-question/survey-que
     HomeComponent,
     RegistrationPageComponent,
     RegistrationComponent,
-    FormComponent,
+    CardComponent,
     NewFormComponent,
     FormEditorComponent,
     FormDetailsComponent,
     QuestionComponent,
     FormDetailsPageComponent,
-    TabsComponent,
     FormDataComponent,
     AdminPageComponent,
     MenuComponent,
@@ -66,6 +66,8 @@ import { SurveyQuestionComponent } from './components/survey-question/survey-que
     LoaderComponent,
     SurveyPassingComponent,
     SurveyQuestionComponent,
+    ThemeEditorDialogComponent,
+    ThemeSelectionDialogComponent,
   ],
   imports: [
     BrowserModule,

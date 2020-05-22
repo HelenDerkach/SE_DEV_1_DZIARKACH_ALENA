@@ -1,13 +1,21 @@
-<div class="form-details-wrapper">
+<app-loader [loading]="loading"></app-loader>
+<div class="form-details-wrapper" *ngIf="!loading">
 	<button mat-button class="back" (click)="back()">
 		<fa-icon [icon]="arrowIcon"></fa-icon>
 		Back
 	</button>
-	<h2 class="form-name">{{currentForm.title}}</h2>
-	<h2 class="form-description">{{currentForm.description}}</h2>
+  <div class="form-details-header">
+    <div class="text-wrapper">
+      <h2 class="form-name">{{currentForm.title}}</h2>
+      <h2 class="form-description">{{currentForm.description}}</h2>
+    </div>
+    <button mat-icon-button class="share-button" (click)="shareUrl()">
+      <fa-icon [icon]="shareIcon" size="lg"></fa-icon>
+    </button>
+  </div>
 	<mat-tab-group>
 	  <mat-tab label="Overview">
-		<app-form-details [_currentForm]="currentForm"></app-form-details>
+		<app-form-details [currentForm]="currentForm"></app-form-details>
 	  </mat-tab>
 	  <mat-tab label="Data">
 	  	<app-form-data [_currentForm]="currentForm"></app-form-data>

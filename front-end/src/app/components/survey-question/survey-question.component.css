@@ -13,13 +13,10 @@
   justify-content: space-between;
 }
 
-.question-header{
-  margin: 0.5rem 0 0 0.5rem;
+.question-position{
+  color: dimgray;
 }
 
-.question-position{
-  position: absolute;
-  margin:0;
-  top: 0;
-  left: 0;
+.required{
+  color: darkred;
 }

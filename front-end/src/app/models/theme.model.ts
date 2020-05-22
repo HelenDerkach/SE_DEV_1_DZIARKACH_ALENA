@@ -5,8 +5,8 @@ import {User} from './user.model';
 export class Theme {
 	id: number;
 	title: string;
-  is_private: boolean;
-	user: User;
-	poll: Poll;
+  isPrivate: boolean;
+	userId: number;
+	pollId: number;
 	questions: Question[];
 }

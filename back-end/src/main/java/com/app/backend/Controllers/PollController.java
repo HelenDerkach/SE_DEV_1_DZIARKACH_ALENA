@@ -45,6 +45,11 @@ public class PollController {
         return pollService.findPublishedPagesByUserId(Integer.parseInt(id), Integer.parseInt(pageNumber));
     }
 
+    @GetMapping(path = "/published/pageNumber={pageNumber}")
+    public @ResponseBody PagingResponse findAllPublishedPages(@PathVariable String pageNumber) {
+        return pollService.findAllPublishedPages(Integer.parseInt(pageNumber));
+    }
+
     @GetMapping(path = "/drafts/userId={id}/pageNumber={pageNumber}")
     public @ResponseBody PagingResponse findDraftsPagesByUserId(@PathVariable String id, @PathVariable String pageNumber) {
         return pollService.findDraftsPagesByUserId(Integer.parseInt(id), Integer.parseInt(pageNumber));
@@ -58,13 +63,10 @@ public class PollController {
     public @ResponseBody Poll createPoll(@RequestBody Poll poll){
         return pollService.save(poll);
     }
+
 //
-//    @PutMapping(path = "/{id}")
-//    public @ResponseBody Poll updatePoll(@RequestBody Poll poll)
-//    {
-//        if(pollRepository.existsById(poll.getId())){
-//            return pollRepository.save(poll);
-//        }
-//        else return null;// TODO error handler
+//    @PostMapping(path = "/update")
+//    public @ResponseBody Poll updatePoll(@RequestBody Poll poll){
+//        return pollService.update(poll);
 //    }
 }

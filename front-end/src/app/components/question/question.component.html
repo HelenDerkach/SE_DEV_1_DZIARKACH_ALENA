@@ -9,12 +9,14 @@
 	  		<mat-label>Select type of question</mat-label>
 			  <mat-select formControlName="type">
 			  	<option label="--select something --"></option>
-			    <mat-option *ngFor="let type of questionTypes" value="{{type.id}}">{{type.name}}</mat-option>
+			    <mat-option *ngFor="let type of questionTypes" [value]="_question?.typeId ? _question.typeId : type.id">
+            {{_question?.typeId ? getTypeName(_question.typeId) : type.name}}
+          </mat-option>
 			  </mat-select>
 		</mat-form-field>
     <div *ngIf="!_isThemed">
       <button mat-icon-button class="delete-question-button"
-              (click)="deleteQuestion()">
+              (click)="deleteQuestion()" *ngIf="_isEditable">
         <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
       </button>
     </div>
@@ -40,7 +42,7 @@
               <mat-form-field>
                 <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
               </mat-form-field>
-              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)">
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)" *ngIf="_isEditable">
                 <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
               </button>
             </div>
@@ -55,7 +57,7 @@
               <mat-form-field>
                 <input matInput type="text" formControlName="val" [readonly]="!_isEditable" required>
               </mat-form-field>
-              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)">
+              <button mat-icon-button class="delete-option-button" (click)="deleteOption(i)" *ngIf="_isEditable">
                 <fa-icon [icon]="closeIcon" size="lg"></fa-icon>
               </button>
             </div>
@@ -64,7 +66,7 @@
         <button mat-stroked-button color="primary" *ngIf="_isEditable" class="add-option-button" (click)="addOption()">Add option</button>
       </div>
     </div>
-    <div class="question-required">
+    <div class="question-required" *ngIf="_isEditable">
       <mat-slide-toggle class="question-slider" formControlName="required">
         Required
       </mat-slide-toggle>
