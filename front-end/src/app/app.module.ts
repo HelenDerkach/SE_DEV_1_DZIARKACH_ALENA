@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { APIInterceptor } from './interceptors/apiinterceptor';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
@@ -86,7 +87,11 @@ import { ThemeSelectionDialogComponent } from './components/theme-selection-dial
     OwlNativeDateTimeModule,
   ],
   providers: [
-    {provide: ErrorStateMatcher}
+    {provide: ErrorStateMatcher}, APIInterceptor, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: APIInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

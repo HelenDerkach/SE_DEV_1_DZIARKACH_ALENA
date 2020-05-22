@@ -30,12 +30,17 @@ public class UserController {
     return userService.getUserById(Integer.parseInt(id));
   }
 
+  @GetMapping(path="/email/{email}")
+  public @ResponseBody Optional<User> getUserByEmail(@PathVariable String email) {
+    return userService.getUserByEmail(email);
+  }
+
   @PostMapping(path="/authentication")
   public @ResponseBody Optional<User> authenticateUser(@RequestBody User user) {
     return userService.authenticateUser(user);
   }
 
-  @PostMapping(path="/registration")
+  @PostMapping(path="/new")
   public @ResponseBody User addNewUser(@RequestBody User user) {
     return userService.createUser(user);
   }

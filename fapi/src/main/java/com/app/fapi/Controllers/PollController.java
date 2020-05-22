@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(path="/polls")
+@RequestMapping(path="/api/polls")
 public class PollController {
     private PollService pollService;
 

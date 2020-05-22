@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(path="/responses")
+@RequestMapping(path="/api/responses")
 public class ResponseController {
     private ResponseService responseService;
 

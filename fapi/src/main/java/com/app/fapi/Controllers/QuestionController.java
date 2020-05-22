@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping(path="/questions")
+@RequestMapping(path="/api/questions")
 public class QuestionController {
     private QuestionService questionService;
 
