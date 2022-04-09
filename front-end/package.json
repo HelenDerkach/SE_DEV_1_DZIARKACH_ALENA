@@ -27,7 +27,7 @@
     "angular-bootstrap-datetimepicker": "^4.0.2",
     "bootstrap": "^4.4.1",
     "chart.js": "^2.9.3",
-    "moment": "^2.25.3",
+    "moment": "^2.29.2",
     "ng-material-datetimepicker": "^1.19.5",
     "ng-pick-datetime": "^7.0.0",
     "ng2-charts": "^2.3.0",
